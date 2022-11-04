@@ -1,0 +1,15 @@
+{% if banks is not null %}
+    {% for bank in banks %}
+        <label id="bridge-payment-label-{{ bank['id'] }}" for="bridge-payment-radio-{{ bank['id'] }}" class="bridge-payment-radio">
+            <input id="bridge-payment-radio-{{ bank['id'] }}" type="radio" name="bridge-payment-radio" value="{{ bank['id'] }}">
+            <span class="bridge-payment-fake-label">
+                <span class="bridge-payment-bank-img">
+                    <img src="{{ bank['logo_url'] }}" alt="image description">
+                </span>
+                <span class="bridge-payment-bank-name">{{ bank['name'] }}</span>
+            </span>
+        </label>
+    {% endfor %}
+{% else %}
+    <br><p style="color: red">{{ 'bridge.payment_checkout.list_of_banks_not_available'|trans }}</p><br>
+{% endif %}

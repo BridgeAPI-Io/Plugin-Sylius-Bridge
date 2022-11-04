@@ -1,0 +1,10 @@
+services:
+    Bridge\SyliusBridgePlugin\Manager\PaymentStateManagerInterface:
+        alias: bridge.manager.payment_state
+
+    bridge.manager.payment_state:
+        class: Bridge\SyliusBridgePlugin\Manager\PaymentStateManager
+        public: true
+        arguments:
+            - '@sm.factory'
+            - '@sylius.manager.payment'

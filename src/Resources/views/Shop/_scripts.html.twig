@@ -1,0 +1,103 @@
+<script src="{{ asset('bundles/bridgesyliuspaymentplugin/bridge-shop.js') }}" defer></script>
+<script>
+    // This condition allows to prevent any conflicts when using axios
+    // If axios is installed, we'll use the root project's axios
+    // We'll be using bridge's axios otherwise
+    if (typeof axios === 'undefined') {
+        import('{{ asset('bundles/bridgesyliuspaymentplugin/axios.min.js') }}');
+    }
+
+    (function () {
+        const inputEl = document.getElementById('bridge-bank-filter');
+        const banksEl = document.getElementById('bridge-banks-list');
+        const bankRadioButtonEl = document.getElementsByName('bridge-payment-radio');
+        const nextButton = document.getElementById('next-step');
+        const syliusPayLink = document.getElementById('sylius-pay-link');
+
+        const syliusCheckoutInfo = document.getElementById('sylius-checkout-select-payment-info');
+        const orderId = syliusCheckoutInfo !== null ? syliusCheckoutInfo.dataset.orderId : '';
+
+        const paymentMethods = document.querySelectorAll('[id^="sylius_checkout_select_payment_payments_"]');
+        const banksBlockEl = document.getElementById('bridge-payment-wrapper');
+
+        if (inputEl !== null) {
+            inputEl.addEventListener('input', function (evt) {
+                const url = '{{ path('bridge_fetch_banks') }}';
+
+                axios.post(url, {'bank': inputEl.value})
+                    .then(response => {
+                        banksEl.innerHTML = response.data;
+                        const newBankRadioButtonEl = document.getElementsByName('bridge-payment-radio');
+                        for (let i = 0; i < newBankRadioButtonEl.length; i++) {
+                            newBankRadioButtonEl[i].addEventListener('input', function (evt) {
+                                if (this.checked) {
+                                    if (nextButton !== null) {
+                                        nextButton.disabled = false;
+                                    }
+                                    const url = '{{ path('bridge_update_selected_bank_on_payment') }}';
+                                    axios.post(url, {'orderId': orderId, 'bankId': this.value});
+                                }
+                            });
+                        }
+                    })
+            });
+        }
+
+        for (let i = 0; i < bankRadioButtonEl.length; i++) {
+            bankRadioButtonEl[i].addEventListener('input', function (evt) {
+                if (this.checked) {
+                    if (nextButton !== null) {
+                        nextButton.disabled = false;
+                    }
+
+                    if (syliusPayLink !== null) {
+                        syliusPayLink.disabled = false;
+                    }
+                    const url = '{{ path('bridge_update_selected_bank_on_payment') }}';
+                    axios.post(url, {'orderId': orderId, 'bankId': this.value});
+                }
+            });
+        }
+
+        let nextButtonShouldBeDisabled = false;
+        for (let i = 0; i < paymentMethods.length; i++) {
+            if (paymentMethods[i].dataset.isBridgePaymentMethod === '1' && paymentMethods[i].checked) {
+                nextButtonShouldBeDisabled = true;
+            }
+            paymentMethods[i].addEventListener('change', function (evt) {
+                if (this.dataset.isBridgePaymentMethod === '1') {
+                    banksBlockEl.style.display = 'block';
+                    const bankRadioButtonEl = document.getElementsByName('bridge-payment-radio');
+                    let isBankSelected = false;
+                    for (let i = 0; i < bankRadioButtonEl.length; i++) {
+                        if (bankRadioButtonEl[i].checked === true) {
+                            isBankSelected = true;
+                        }
+                    }
+
+                    if (!isBankSelected && nextButton !== null) {
+                        nextButton.disabled = true;
+                    }
+
+                    if (!isBankSelected && syliusPayLink !== null) {
+                        syliusPayLink.disabled = true;
+                    }
+                } else {
+                    banksBlockEl.style.display = 'none';
+                }
+            })
+        }
+
+        if (nextButtonShouldBeDisabled === false) {
+            banksBlockEl.style.display = 'none';
+        } else {
+            if (nextButton !== null) {
+                nextButton.disabled = nextButtonShouldBeDisabled;
+            }
+            if (syliusPayLink !== null) {
+                syliusPayLink.disabled = nextButtonShouldBeDisabled;
+            }
+        }
+
+    })();
+</script>

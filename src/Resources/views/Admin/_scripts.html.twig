@@ -1,0 +1,89 @@
+<script>
+    // This condition allows to prevent any conflicts when using axios
+    // If axios is installed, we'll use the root project's axios
+    // We'll be using bridge's axios otherwise
+    if (typeof axios === 'undefined') {
+        import('{{ asset('bundles/bridgesyliuspaymentplugin/axios.min.js') }}');
+    }
+
+    function checkWebhookConfiguration(type) {
+        const url = '{{ path('bridge_check_webhook') }}';
+
+        // Test mode elements
+        const elementTest = document.getElementById('test-webhook-configured-at');
+
+        // Production mode elements
+        const elementProd = document.getElementById('production-webhook-configured-at');
+
+        const data = {type: type};
+
+        axios.post(url, data)
+            .then(response => {
+                if (response.data.webhook_configured_at !== null) {
+                    if (type === 'test') {
+                        elementTest.innerHTML = response.data.webhook_configured_at + '<i class="check icon green"></i> ';
+                    } else {
+                        elementProd.innerHTML = response.data.webhook_configured_at + '<i class="check icon green"></i> ';
+                    }
+                }
+            })
+            .catch(error => {
+                if (type === 'test') {
+                    elementTest.innerHTML = '<i class="close icon red"></i>';
+                } else {
+                    elementProd.innerHTML = '<i class="close icon red"></i>';
+                }
+            })
+    }
+
+    function checkBridgeCredentials(type) {
+        const url = '{{ path('bridge_check_credentials') }}';
+
+        // Test mode elements
+        const elementTest = document.getElementById('test-bridge-credentials-confirmation');
+        const testClientId = document.getElementById('sylius_payment_method_gatewayConfig_config_testClientId');
+        const testClientSecret = document.getElementById('sylius_payment_method_gatewayConfig_config_testClientSecret');
+        const testWebhookSecret = document.getElementById('sylius_payment_method_gatewayConfig_config_testWebhookSecret');
+
+        // Production mode elements
+        const elementProd = document.getElementById('production-bridge-credentials-confirmation');
+        const prodClientId = document.getElementById('sylius_payment_method_gatewayConfig_config_clientId');
+        const prodClientSecret = document.getElementById('sylius_payment_method_gatewayConfig_config_clientSecret');
+        const prodWebhookSecret = document.getElementById('sylius_payment_method_gatewayConfig_config_webhookSecret');
+
+        const data = {
+            type: type,
+            clientId: type === 'test' ? testClientId.value : prodClientId.value,
+            clientSecret: type === 'test' ? testClientSecret.value : prodClientSecret.value,
+            webhookSecret: type === 'test' ? testWebhookSecret.value : prodWebhookSecret.value,
+        };
+
+        axios.post(url, data)
+            .then(response => {
+                if (response.data.verified === true) {
+                    if (type === 'test') {
+                        elementTest.style.display = 'inline';
+                    } else {
+                        elementProd.style.display = 'inline';
+                    }
+                } else {
+                    if (type === 'test') {
+                        elementTest.style.display = 'inline';
+                        elementTest.innerHTML = '<i class="close icon red"></i>'
+                    } else {
+                        elementProd.style.display = 'inline';
+                        elementProd.innerHTML = '<i class="close icon red"></i>'
+                    }
+                }
+            })
+            .catch(error => {
+                if (type === 'test') {
+                    elementTest.style.display = 'inline';
+                    elementTest.innerHTML = '<i class="close icon red"></i>'
+                } else {
+                    elementProd.style.display = 'inline';
+                    elementProd.innerHTML = '<i class="close icon red"></i>'
+                }
+            })
+    }
+</script>

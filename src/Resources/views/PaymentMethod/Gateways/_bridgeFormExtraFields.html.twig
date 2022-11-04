@@ -1,0 +1,6 @@
+{% if resource.gatewayConfig.factoryName == 'bridge-payment' %}
+    {{ form_row(form.bridgeLogo) }}
+    <p>{{ 'bridge.payment_method.explanation_block.display_the_bridge_logo_in_the_order_page'|trans }}</p>
+    {{ form_row(form.testMode) }}
+    <p>{{ 'bridge.payment_method.explanation_block.go_on_production'|trans }}</p>
+{% endif %}

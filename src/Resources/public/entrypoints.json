@@ -1,0 +1,20 @@
+{
+    "entrypoints": {
+        "bridge-shop": {
+            "css": [
+                "/public/bridge-shop.css"
+            ],
+            "js": [
+                "/public/bridge-shop.js"
+            ]
+        },
+        "bridge-admin": {
+            "css": [
+                "/public/bridge-admin.css"
+            ],
+            "js": [
+                "/public/bridge-admin.js"
+            ]
+        }
+    }
+}

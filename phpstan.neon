@@ -1,0 +1,17 @@
+parameters:
+    paths:
+        - src
+    excludes_analyse:
+        - src/Controller/Action/Api/*
+    ignoreErrors:
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentMethod::setTestWebhookConfigurationDate\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentMethod::setProductionWebhookConfigurationDate\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentMethod::getTestWebhookConfigurationDate\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentMethod::getProductionWebhookConfigurationDate\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::setPaymentApiId\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getBankId\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getPaymentApiId\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::setBankId\(\).#'
+    level: max
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false

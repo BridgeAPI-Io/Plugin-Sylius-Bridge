@@ -1,0 +1,5 @@
+bridge:
+    payment_method:
+        invalid_or_not_supplied_api_keys: Les paramètres Bridge ont été enregistrés, mais les clés sont invalides ou non renseignées.
+        must_configure_webhook_in_the_bridge_dashboad: Vous devez configurer votre webhook dans le dashboard Bridge.
+        unable_to_activate_the_bridge_plugin: Impossible d’activer le plugin si des clés d’API Sandbox ne sont pas enregistrées ou ne sont pas valides.

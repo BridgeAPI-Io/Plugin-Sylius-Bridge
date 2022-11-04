@@ -1,0 +1,6 @@
+bridge:
+    payment_method:
+        invalid_or_not_supplied_api_keys: Bridge settings were saved, but the keys are invalid or missing.
+        must_configure_webhook_in_the_bridge_dashboad: You must configure your webhook in the Bridge dashboard.
+        unable_to_activate_the_bridge_plugin: Unable to activate plugin if the sandbox API keys are not registered or are invalid.
+

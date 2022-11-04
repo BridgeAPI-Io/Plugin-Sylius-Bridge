@@ -1,0 +1,327 @@
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: top;
+}
+
+.gm-style img {
+    max-width: none;
+}
+
+.bridge-payment-steps-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#bridge-payment-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.bridge-payment-container {
+    max-width: 1530px;
+    margin: 0 auto;
+}
+
+.bridge-payment-payment-holder {
+    background-color: #fafafa;
+    padding: 23px 0 23px 0;
+    box-sizing: border-box;
+}
+
+.bridge-payment-payment-holder a {
+    text-decoration: none;
+}
+
+.bridge-payment-js-hidden {
+    position: absolute;
+    display: block !important;
+    left: -9999px;
+    top: 0;
+}
+
+.bridge-payment-open-close .bridge-payment-opener {
+    display: inline-block;
+    vertical-align: middle;
+    color: currentColor;
+    position: relative;
+    padding-right: 39px;
+    margin-bottom: 23px;
+    font-size: 1rem;
+}
+
+.bridge-payment-open-close .bridge-payment-opener:before {
+    -webkit-transition: -webkit-transform .3s ease-in-out;
+    transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+    transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background-image: url('images/arrow-down-sign-to-navigate.png');
+    width: 15px;
+    height: 15px;
+    background-size: 15px 15px;
+}
+
+.bridge-payment-open-close.bridge-payment-active .bridge-payment-opener:before {
+    -webkit-transform: translateY(-50%) rotate(180deg);
+    -ms-transform: translateY(-50%) rotate(180deg);
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.bridge-payment-steps-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0 -10px 13px;
+}
+
+.bridge-payment-steps-list li {
+    position: relative;
+    width: 25%;
+    padding: 0 10px;
+}
+
+.bridge-payment-steps-list li:before {
+    content: "";
+    position: absolute;
+    right: -10px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    background-size: 20px auto;
+    background-image: url('images/arrow-right.png');
+}
+
+.bridge-payment-steps-list li:last-child:before {
+    content: none;
+}
+
+.bridge-payment-steps-list .bridge-payment-step-title {
+    display: block;
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    max-width: 88px;
+    margin: 0 auto;
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+.bridge-payment-steps-list .bridge-payment-holder-icon {
+    width: 30px;
+    margin: 0 auto 10px;
+}
+
+.bridge-payment-search-box {
+    position: relative;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.bridge-payment-search-box:before {
+    content: "";
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: url('images/magnifying-glass.png') no-repeat;
+    background-size: 16px auto;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.bridge-payment-search-box input[type="search"] {
+    -webkit-transition: outline .3s ease-in-out, background .3s ease-in-out;
+    transition: outline .3s ease-in-out, background .3s ease-in-out;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid #ebf4ff;
+    border-radius: 5px;
+    font-size: small;
+    color: #999;
+    width: 100%;
+    min-height: 35px;
+    height: inherit;
+    padding: 0 33px 0 10px;
+    font-size: 13px;
+}
+
+.bridge-payment-search-box input[type="search"]:focus {
+    outline-color: #7f54b3;
+    background: #fff;
+}
+
+.bridge-payment-bank-holder {
+    padding: 0 10px 10px;
+}
+
+.bridge-payment-bank-box {
+    background: #fff;
+    padding: 5px 5px 0;
+}
+
+.bridge-payment-bank-form [type="radio"] {
+    position: fixed;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    z-index: -1;
+}
+
+.bridge-payment-bank-form label {
+    display: block;
+    margin: 5px 5px 10px 5px;
+}
+
+.bridge-payment-bank-form .bridge-payment-fake-label {
+    -webkit-transition: border .3s ease-in-out, background .3s ease-in-out;
+    transition: border .3s ease-in-out, background .3s ease-in-out;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    background-color: #28a0ce12;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 #ccc;
+    font-weight: bold;
+    cursor: pointer;
+    min-height: 75px;
+    padding: 5px;
+    position: relative;
+}
+
+.bridge-payment-bank-form .bridge-payment-fake-label:hover {
+    background-color: #28a0ce29;
+}
+
+.bridge-payment-bank-form .bridge-payment-fake-label:before {
+    -webkit-transition: opacity .3s ease-in-out, visibility .3s ease-in-out;
+    transition: opacity .3s ease-in-out, visibility .3s ease-in-out;
+    content: "";
+    position: absolute;
+    right: 5px;
+    bottom: 3px;
+    width: 12px;
+    height: 12px;
+    background: url('images/checked.png') no-repeat;
+    background-size: 12px 12px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.bridge-payment-bank-form .bridge-payment-banks {
+    max-height: 255px;
+    overflow-y: auto;
+}
+
+.bridge-payment-bank-form label {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .bridge-payment-bank-form label {
+        width: 50%;
+        float: left;
+    }
+}
+
+.bridge-payment-bank-form .bridge-payment-bank-name {
+    font-size: 11px;
+    width: calc(100% - 70px);
+    line-height: 1.618;
+}
+
+.bridge-payment-bank-form .bridge-payment-bank-img {
+    display: block;
+    width: 60px;
+    max-height: 30px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+.bridge-payment-bank-form [type="radio"]:checked ~ .bridge-payment-fake-label {
+    background-color: #28a0ce29;
+    border-color: #061521;
+}
+
+.bridge-payment-bank-form [type="radio"]:checked ~ .bridge-payment-fake-label:before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bridge-payment-link-more {
+    display: block;
+    padding: 5px;
+    color: #061521;
+    font-size: 14px;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    line-height: 1.7;
+}
+
+.bridge-payment-link-more img {
+    width: 15px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+@media (min-width: 480px) {
+    .bridge-payment-payment-holder {
+        padding: 23px 0 23px 0;
+    }
+
+    .bridge-payment-steps-list {
+        max-width: 605px;
+        margin: 0 auto 20px;
+    }
+
+    .bridge-payment-steps-list li {
+        padding: 0 20px;
+    }
+
+    .bridge-payment-steps-list li:before {
+        top: -5px;
+        right: -20px;
+        width: 40px;
+        height: 40px;
+        background-size: 40px auto;
+    }
+
+    .bridge-payment-steps-list .bridge-payment-step-title {
+        max-width: 88px;
+        font-size: 10px;
+        word-break: normal;
+    }
+}
+
+.bridge-payment-banks .bridge-payment-radio {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+}
+
+.bridge-checkout-text-word-spacing {
+    word-spacing: 0.3rem;
+}

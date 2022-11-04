@@ -1,0 +1,14 @@
+services:
+    Bridge\SyliusBridgePlugin\Form\Type\BridgePaymentGatewayConfigurationType:
+        tags:
+            - { name: sylius.gateway_configuration_type, type: bridge-payment, label: 'bridge.bridge_api.bridge_payment' }
+            - { name: form.type }
+        arguments:
+            - '@translator'
+
+    bridge.form.extension.type.payment_method:
+        class: Bridge\SyliusBridgePlugin\Form\Extension\PaymentMethodTypeExtension
+        arguments:
+            - '@bridge.service.crypt_decrypt'
+        tags:
+            - { name: form.type_extension, extended_type: Sylius\Bundle\PaymentBundle\Form\Type\PaymentMethodType }

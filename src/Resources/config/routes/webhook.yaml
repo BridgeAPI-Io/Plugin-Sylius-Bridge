@@ -1,0 +1,11 @@
+bridge_payment_webhook:
+    path: /bridge-webhook/transaction-updated
+    methods: [ GET, POST ]
+    defaults:
+        _controller: bridge.action.webhook
+
+bridge_payment_sandbox_webhook:
+    path: /bridge-webhook/sandbox/transaction-updated
+    methods: [ GET, POST ]
+    defaults:
+        _controller: bridge.action.sandbox_webhook

@@ -1,0 +1,29 @@
+bridge_check_credentials:
+    path: /admin/bridge-payment/check/credentials
+    methods: [GET, POST]
+    defaults:
+        _controller: bridge.action.check_bridge_credentials
+
+bridge_check_webhook:
+    path: /admin/bridge-payment/check/webhook
+    methods: [GET, POST]
+    defaults:
+        _controller: bridge.action.check_webhook_configuration
+
+bridge_fetch_banks:
+    path: /{_locale}/shop/fetch/banks
+    methods: [GET, POST]
+    defaults:
+        _controller: bridge.action.fetch_banks
+
+bridge_update_selected_bank_on_payment:
+    path: /{_locale}/update/bank/payment
+    methods: [POST]
+    defaults:
+        _controller: bridge.action.update_selected_bank_on_payment
+
+bridge_failed_status:
+    path: /{_locale}/account/order/payment/failed
+    methods: [GET, POST]
+    defaults:
+        _controller: bridge.action.failed_status

@@ -1,0 +1,8 @@
+bridge_plugin_webhook:
+    resource: "routes/webhook.yaml"
+
+bridge_plugin_actions:
+    resource: "routes/actions.yaml"
+
+bridge_plugin_mockup:
+    resource: "routes/mockup.yaml"

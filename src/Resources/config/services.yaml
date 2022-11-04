@@ -1,0 +1,93 @@
+imports:
+    - { resource: "services/form.yaml" }
+    - { resource: "services/webhook.yaml" }
+    - { resource: "services/action.yaml" }
+    - { resource: "services/repository.yaml" }
+    - { resource: "services/client.yaml" }
+    - { resource: "services/manager.yaml" }
+    - { resource: "services/gateway_factory.yaml" }
+    - { resource: "services/event.yaml" }
+    - { resource: "services/listeners.yaml" }
+    - { resource: "services/grids.yaml" }
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    Bridge\SyliusBridgePlugin\:
+        resource: '../../*'
+        exclude: '../../{Service,Form}'
+    
+    Bridge\SyliusBridgePlugin\Service\BridgePaymentGatewayServiceInterface:
+        alias: bridge.service.bridge_payment_gateway
+
+    bridge.service.bridge_payment_gateway:
+        class: Bridge\SyliusBridgePlugin\Service\BridgePaymentGatewayService
+        public: true
+        arguments:
+            - '@monolog.logger'
+            - '@sylius.context.channel'
+            - '@bridge.repository.payment_method'
+    
+    Bridge\SyliusBridgePlugin\Service\TemplatingServiceInterface:
+        alias: bridge.service.templating
+
+    bridge.service.templating:
+        class: Bridge\SyliusBridgePlugin\Service\TemplatingService
+        public: true
+        arguments:
+            - '@twig'
+    
+    Bridge\SyliusBridgePlugin\Service\UserServiceInterface:
+        alias: bridge.service.user
+
+    bridge.service.user:
+        class: Bridge\SyliusBridgePlugin\Service\UserService
+        public: true
+        arguments:
+            - '@security.token_storage'
+
+    Bridge\SyliusBridgePlugin\Service\BridgeStatusServiceInterface:
+        alias: bridge.service.status
+
+    bridge.service.status:
+        class: Bridge\SyliusBridgePlugin\Service\BridgeStatusService
+        public: true
+        arguments:
+            - '@bridge.manager.payment_state'
+    
+    Bridge\SyliusBridgePlugin\Service\BridgeBankServiceInterface:
+        alias: bridge.service.bank
+
+    bridge.service.bank:
+        class: Bridge\SyliusBridgePlugin\Service\BridgeBankService
+        public: true
+        arguments:
+            - '@sylius.context.locale'
+
+    Bridge\SyliusBridgePlugin\Service\CryptDecryptServiceInterface:
+        alias: bridge.service.crypt_decrypt
+
+    bridge.service.crypt_decrypt:
+        class: Bridge\SyliusBridgePlugin\Service\CryptDecryptService
+        public: true
+        arguments:
+            - '@monolog.logger'
+            - '@session.flash_bag'
+    
+    Bridge\SyliusBridgePlugin\Service\BridgeWebhookServiceInterface:
+        alias: bridge.service.webhook
+    
+    bridge.service.webhook:
+        class: Bridge\SyliusBridgePlugin\Service\BridgeWebhookService
+        public: true
+        arguments:
+            - '@monolog.logger'
+            - '@bridge.service.status'
+            - '@sylius.repository.order'
+            - '@bridge.service.bridge_payment_gateway'
+            - '@sylius.manager.payment_method'
+            - '@sylius.repository.payment'
+            - '@bridge.service.crypt_decrypt'

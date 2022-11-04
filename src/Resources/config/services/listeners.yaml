@@ -1,0 +1,12 @@
+services:
+    bridge.listener.payment_method:
+        class: Bridge\SyliusBridgePlugin\EventListener\PaymentMethodListener
+        public: true
+        arguments:
+            - '@bridge.api_client'
+            - '@session.flash_bag'
+            - '@translator'
+            - '@bridge.service.crypt_decrypt'
+        tags:
+            - { name: kernel.event_listener, event: sylius.payment_method.pre_create, method: preCreate }
+            - { name: kernel.event_listener, event: sylius.payment_method.pre_update, method: preUpdate }

@@ -1,0 +1,68 @@
+services:
+    bridge.action.capture:
+        class: Bridge\SyliusBridgePlugin\Controller\Action\CaptureAction
+        public: true
+        arguments:
+            - '@bridge.api_client'
+            - "@sylius.context.currency"
+            - "@bridge.service.user"
+            - "@router"
+            - "@sylius.context.channel"
+            - '@request_stack'
+            - '@session.flash_bag'
+            - '@translator'
+            - '@bridge.service.crypt_decrypt'
+        tags:
+            - { name: payum.action, factory: bridge-payment, alias: payum.action.capture }
+
+    bridge.action.status:
+        class: Bridge\SyliusBridgePlugin\Controller\Action\StatusAction
+        public: true
+        arguments:
+            - '@bridge.api_client'
+            - '@bridge.service.status'
+            - '@monolog.logger'
+        tags:
+            - { name: payum.action, factory: bridge-payment, alias: payum.action.status }
+
+    bridge.action.failed_status:
+        class: Bridge\SyliusBridgePlugin\Controller\Action\FailedStatusAction
+        public: true
+        arguments:
+            - '@sylius.repository.payment_security_token'
+            - '@sylius.repository.payment'
+            - '@monolog.logger'
+        tags: [ 'controller.service_arguments' ]
+
+    bridge.action.check_bridge_credentials:
+        class: Bridge\SyliusBridgePlugin\Controller\Action\CheckBridgeCredentialsAction
+        public: true
+        arguments:
+            - '@bridge.api_client'
+        tags: [ 'controller.service_arguments' ]
+    
+    bridge.action.check_webhook_configuration:
+        class: Bridge\SyliusBridgePlugin\Controller\Action\CheckWebhookConfigurationAction
+        public: true
+        arguments:
+            - '@bridge.service.bridge_payment_gateway'
+        tags: [ 'controller.service_arguments' ]
+    
+    bridge.action.fetch_banks:
+        class: Bridge\SyliusBridgePlugin\Controller\Action\FetchBanksAction
+        public: true
+        arguments:
+            - '@bridge.service.bridge_payment_gateway'
+            - '@bridge.api_client'
+            - '@bridge.service.templating'
+            - '@bridge.service.bank'
+            - '@bridge.service.crypt_decrypt'
+        tags: [ 'controller.service_arguments' ]
+
+    bridge.action.update_selected_bank_on_payment:
+        class: Bridge\SyliusBridgePlugin\Controller\Action\UpdateSelectedBankOnPaymentAction
+        public: true
+        arguments:
+            - '@sylius.repository.order'
+            - '@sylius.manager.payment'
+        tags: [ 'controller.service_arguments' ]

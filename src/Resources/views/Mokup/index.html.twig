@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylius</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link media="all" rel="stylesheet" href="{{ asset('bundles/bridgesyliuspaymentplugin/bridge-shop.css') }}">
+    <script src="{{ asset('bundles/bridgesyliuspaymentplugin/bridge-shop.js') }}" defer></script>
+</head>
+<body>
+<div id="bridge-payment-wrapper">
+    <main id="bridge-payment-main">
+        <div class="bridge-payment-container">
+            <div class="bridge-payment-payment-holder">
+                <div class="bridge-payment-open-close">
+                    <a href="#" class="bridge-payment-opener bridge-payment-active">{{ 'bridge.payment_checkout.how_it_works'|trans }} </a>
+                    <div class="bridge-payment-slide">
+                        <ul class="bridge-payment-steps-list">
+                            <li>
+                                <div class="bridge-payment-step-item">
+                                    <div class="bridge-payment-holder-icon">
+                                        <img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/banque.png') }}" alt="image description">
+                                    </div>
+                                    <span class="bridge-payment-step-title">{{ 'bridge.payment_checkout.select_your_bank'|trans }}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="bridge-payment-step-item">
+                                    <div class="bridge-payment-holder-icon">
+                                        <img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/telephone.png') }}" alt="image description">
+                                    </div>
+                                    <span class="bridge-payment-step-title">{{ 'bridge.payment_checkout.authentication'|trans }}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="bridge-payment-step-item">
+                                    <div class="bridge-payment-holder-icon">
+                                        <img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/fermer.png') }}" alt="image description">
+                                    </div>
+                                    <span class="bridge-payment-step-title">{{ 'bridge.payment_checkout.validation'|trans }}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="bridge-payment-step-item">
+                                    <div class="bridge-payment-holder-icon">
+                                        <img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/verification-du-panier.png') }}" alt="image description">
+                                    </div>
+                                    <span class="bridge-payment-step-title">{{ 'bridge.payment_checkout.finished'|trans }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bridge-payment-bank-holder">
+                    <div class="bridge-payment-bank-box">
+                        <div class="bridge-payment-search-box">
+                            <input type="search" placeholder="{{ 'bridge.payment_checkout.search_a_bank'|trans }}">
+                        </div>
+                        <form action="#" class="bridge-payment-bank-form">
+                            <div class="bridge-payment-banks">
+                                <label for="bridge-payment-radio-1">
+                                    <input id="bridge-payment-radio-1" type="radio" name="bridge-payment-radio-1">
+                                    <span class="bridge-payment-fake-label">
+											<span class="bridge-payment-bank-img"><img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/bank-img-02.png') }}" alt="image description"></span>
+											<span class="bridge-payment-bank-name">AXA Banque</span>
+										</span>
+                                </label>
+                                <label for="bridge-payment-radio-2">
+                                    <input id="bridge-payment-radio-2" type="radio" name="bridge-payment-radio-1">
+                                    <span class="bridge-payment-fake-label">
+											<span class="bridge-payment-bank-img"><img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/bank-img-03.png') }}" alt="image description"></span>
+											<span class="bridge-payment-bank-name">Arkéa Banking Services (Compte courant et carte)</span>
+										</span>
+                                </label>
+                                <label for="bridge-payment-radio-3">
+                                    <input id="bridge-payment-radio-3" type="radio" name="bridge-payment-radio-1">
+                                    <span class="bridge-payment-fake-label">
+											<span class="bridge-payment-bank-img"><img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/bank-img-04.png') }}" alt="image description"></span>
+											<span class="bridge-payment-bank-name">Arkéa Banque Privée</span>
+										</span>
+                                </label>
+                                <label for="bridge-payment-radio-4">
+                                    <input id="bridge-payment-radio-4" type="radio" name="bridge-payment-radio-1">
+                                    <span class="bridge-payment-fake-label">
+											<span class="bridge-payment-bank-img"><img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/bank-img-01.png') }}" alt="image description"></span>
+											<span class="bridge-payment-bank-name">BNP Net Entreprises (Lecteur sans fil)</span>
+										</span>
+                                </label>
+                                <label for="bridge-payment-radio-5">
+                                    <input id="bridge-payment-radio-5" type="radio" name="bridge-payment-radio-1">
+                                    <span class="bridge-payment-fake-label">
+											<span class="bridge-payment-bank-img"><img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/bank-img-01.png') }}" alt="image description"></span>
+											<span class="bridge-payment-bank-name">BNP Net Entreprises (Navigation Sécurisée)</span>
+										</span>
+                                </label>
+                            </div>
+                            <span class="bridge-payment-link-more">{{ 'bridge.payment_checkout.scroll_down_to_see_more_banks'|trans }} <img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/down-arrow.png') }}" alt="image description"></span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

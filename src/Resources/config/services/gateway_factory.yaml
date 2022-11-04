@@ -1,0 +1,7 @@
+services:
+    bridge.gateway_factory:
+        class: Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder
+        arguments:
+            - Bridge\SyliusBridgePlugin\BridgePaymentGatewayFactory
+        tags:
+            - { name: payum.gateway_factory_builder, factory: bridge-payment }

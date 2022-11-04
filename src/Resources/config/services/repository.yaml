@@ -1,0 +1,4 @@
+services:
+    bridge.repository.payment_method:
+        class: Bridge\SyliusBridgePlugin\Repository\PaymentMethodRepository
+        parent: "sylius.repository.payment_method"

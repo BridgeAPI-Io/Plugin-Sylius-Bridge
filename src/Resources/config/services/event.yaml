@@ -1,0 +1,19 @@
+sylius_ui:
+    events:
+        sylius.shop.layout.javascripts:
+            blocks:
+                bridge_scripts:
+                    template: "@BridgeSyliusPaymentPlugin/Shop/_scripts.html.twig"
+                    priority: 9
+
+        sylius.shop.layout.stylesheets:
+            blocks:
+                bridge_styles:
+                    template: "@BridgeSyliusPaymentPlugin/Shop/_styles.html.twig"
+                    priority: 9
+        
+        sylius.admin.layout.javascripts:
+            blocks:
+                bridge_scripts:
+                    template: "@BridgeSyliusPaymentPlugin/Admin/_scripts.html.twig"
+                    priority: 9

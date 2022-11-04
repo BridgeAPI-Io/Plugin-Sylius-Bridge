@@ -1,0 +1,24 @@
+{% if resource.gatewayConfig.factoryName == 'bridge-payment' %}
+    <div class="ui segment">
+        <h3>{{ 'bridge.payment_method.bank_payment_by_bridge'|trans }} <i class="level up alternate icon"></i> </h3>
+        <p>{{ 'bridge.payment_method.accept_your_first_payments'|trans }}</p>
+        <h4>{{ 'bridge.payment_method.explanation_block.test_bridge'|trans }}</h4>
+        <ul>
+            <li><a href="https://dashboard.bridgeapi.io/signup">{{ 'bridge.payment_method.explanation_block.create_bridge_account'|trans }}</a></li>
+            <li>{{ 'bridge.payment_method.explanation_block.create_test_application'|trans }}</li>
+            <li>{{ 'bridge.payment_method.explanation_block.activate_test_mode_below'|trans }}</li>
+            <li>{{ 'bridge.payment_method.explanation_block.insert_test_keys'|trans }}</li>
+            <li><a href="https://bridgeapi.zendesk.com/hc/en-150/articles/4428826451602-Guide-How-to-make-your-first-test-payment-">{{ 'bridge.payment_method.explanation_block.test_payments'|trans }}</a></li>
+        </ul>
+        <h4>{{ 'bridge.payment_method.explanation_block.go_to_production'|trans }}</h4>
+        <ul>
+            <li>{{ 'bridge.payment_method.explanation_block.make_appointment'|trans }}<a href="https://meetings.hubspot.com/david-l2">{{ 'bridge.payment_method.explanation_block.here'|trans }}</a></li>
+        </ul>
+        <h4>{{ 'bridge.payment_method.explanation_block.need_help'|trans }}</h4>
+        <ul>
+            <li>{{ 'bridge.payment_method.explanation_block.available_coverage'|trans }}<a href="https://bridgeapi.zendesk.com/hc/en-150">{{ 'bridge.payment_method.explanation_block.here'|trans }}</a></li>
+            <li>{{ 'bridge.payment_method.explanation_block.implementation_problem'|trans }}<a href="mailto:delivery@bridgeapi.io">{{ 'bridge.payment_method.explanation_block.here'|trans }}</a></li>
+            <li>{{ 'bridge.payment_method.explanation_block.technical_problem'|trans }}<a href="mailto:support@bridgeapi.io">{{ 'bridge.payment_method.explanation_block.here'|trans }}</a></li>
+        </ul>
+    </div>
+{% endif %}

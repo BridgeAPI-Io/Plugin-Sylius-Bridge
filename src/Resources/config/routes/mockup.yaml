@@ -1,0 +1,7 @@
+bridge_payment_shop_mockup:
+    path: /admin/bridge/shop/mockup
+    methods: [ GET, POST ]
+    defaults:
+        _controller: bridge.service.templating:render
+        _sylius:
+            template: '@BridgeSyliusPaymentPlugin/Mokup/index.html.twig'

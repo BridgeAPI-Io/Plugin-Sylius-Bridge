@@ -1,0 +1,7 @@
+sylius_grid:
+    grids:
+        sylius_admin_payment:
+            fields:
+                paymentApiId:
+                    type: string
+                    label: bridge.ui.transaction_id

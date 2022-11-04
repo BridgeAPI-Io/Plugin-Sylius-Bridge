@@ -1,0 +1,14 @@
+services:
+    bridge.action.webhook:
+        class: Bridge\SyliusBridgePlugin\Controller\Webhook\WebhookAction
+        public: true
+        arguments:
+            - '@bridge.service.webhook'
+        tags: [ 'controller.service_arguments' ]
+    
+    bridge.action.sandbox_webhook:
+        class: Bridge\SyliusBridgePlugin\Controller\Webhook\SandboxWebhookAction
+        public: true
+        arguments:
+            - '@bridge.service.webhook'
+        tags: [ 'controller.service_arguments' ]

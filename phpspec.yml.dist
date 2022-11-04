@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Bridge\SyliusBridgePlugin
+        psr4_prefix: Bridge\SyliusBridgePlugin

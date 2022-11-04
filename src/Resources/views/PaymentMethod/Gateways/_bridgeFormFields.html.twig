@@ -1,0 +1,114 @@
+{% if resource.gatewayConfig.factoryName == 'bridge-payment' %}
+    {# Render test environment fields #}
+    <h2>{{ 'bridge.payment_method.explanation_block.test_environment'|trans }}</h2>
+    <div class="ui grid">
+        {% for field in form.gatewayConfig.config %}
+            {% if 'test' in field.vars.name %}
+                <div class="eight wide column">
+                    {{ form_row(field) }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="ui grid">
+        <div class="three wide column">
+            <label for="check-bridge-test-credentials">
+                <strong>{{ 'bridge.payment_method.explanation_block.check_test_credentials'|trans }}</strong>
+            </label>
+        </div>
+        <div class="nine wide column">
+            <button onclick="checkBridgeCredentials('test')"
+                    id="check-bridge-test-credentials"
+                    {% if resource.id == null %}disabled="disabled"{% endif %}
+                    type="button"
+                    class="ui labeled icon primary button">
+                {{ 'bridge.payment_method.explanation_block.check_test_credentials'|trans }}
+            </button>
+            <span id="test-bridge-credentials-confirmation" style="display: none">
+                    <i class="check icon green"></i>
+                </span>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="three wide column">
+            <label for="check-bridge-test-webhook">
+                <strong>{{ 'bridge.payment_method.explanation_block.sandbox_webhook_status'|trans }}</strong>
+            </label>
+        </div>
+
+        <div class="nine wide column">
+            <button onclick="checkWebhookConfiguration('test')"
+                    {% if resource.id == null %}disabled="disabled"{% endif %}
+                    id="check-bridge-test-webhook"
+                    type="button"
+                    class="ui labeled icon primary button">
+                {{ 'bridge.payment_method.explanation_block.check_webhook_configuration'|trans }}
+            </button>
+            <span>
+                    {{ 'bridge.payment_method.explanation_block.webhook_configured'|trans }}
+                    <span id="test-webhook-configured-at">{% if resource.id != null and resource.testWebhookConfigurationDate != null %} {{ resource.testWebhookConfigurationDate|date('d/m/Y H:i:s') }} <i class="check icon green"></i>{% endif %}</span>
+                    <p>
+                        {{ 'bridge.payment_method.explanation_block.you_need_to_add_the_callback_url'|trans }}
+                        <span style="background-color: #DCDCDC"><i>{{ webhookUrlSandbox }}</i></span>
+                        {{ 'bridge.payment_method.explanation_block.to_your_bridge_dashboard'|trans }}
+                    </p>
+                </span>
+        </div>
+    </div>
+
+    {# Render production environment fields #}
+    <h2>{{ 'bridge.payment_method.explanation_block.production_environment'|trans }}</h2>
+    <div class="ui grid">
+        {% for field in form.gatewayConfig.config %}
+            {% if 'test' not in field.vars.name %}
+                <div class="eight wide column">
+                    {{ form_row(field) }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="ui grid">
+        <div class="three wide column">
+            <label for="check-bridge-credentials">
+                <strong>{{ 'bridge.payment_method.explanation_block.check_production_credentials'|trans }}</strong>
+            </label>
+        </div>
+        <div class="nine wide column">
+            <button onclick="checkBridgeCredentials('production')"
+                    id="check-bridge-credentials"
+                    {% if resource.id == null %}disabled="disabled"{% endif %}
+                    type="button"
+                    class="ui labeled icon primary button">
+                {{ 'bridge.payment_method.explanation_block.check_production_credentials'|trans }}
+            </button>
+            <span id="production-bridge-credentials-confirmation" style="display: none">
+                    <i class="check icon green"></i>
+                </span>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="three wide column">
+            <label for="check-bridge-webhook">
+                <strong>{{ 'bridge.payment_method.explanation_block.production_sandbox_webhook_status'|trans }}</strong>
+            </label>
+        </div>
+        <div class="nine wide column">
+            <button onclick="checkWebhookConfiguration('production')"
+                    id="check-bridge-webhook"
+                    {% if resource.id == null %}disabled="disabled"{% endif %}
+                    type="button"
+                    class="ui labeled icon primary button">
+                {{ 'bridge.payment_method.explanation_block.check_production_webhook_status'|trans }}
+            </button>
+            <span>
+                    {{ 'bridge.payment_method.explanation_block.webhook_configured'|trans  }}
+                    <span id="production-webhook-configured-at">{% if resource.id != null and resource.productionWebhookConfigurationDate != null %} {{ resource.productionWebhookConfigurationDate|date('d/m/Y H:i:s') }} <i class="check icon green"></i> {% endif %} </span>
+                </span>
+            <p>
+                {{ 'bridge.payment_method.explanation_block.you_need_to_add_the_callback_url'|trans }}
+                <span style="background-color: #DCDCDC"><i>{{ webhookUrlProd }}</i></span>
+                {{ 'bridge.payment_method.explanation_block.to_your_bridge_dashboard'|trans }}
+            </p>
+        </div>
+    </div>
+{% endif %}
