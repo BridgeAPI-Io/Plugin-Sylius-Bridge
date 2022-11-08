@@ -1,18 +1,12 @@
 {
-    "name": "bridge/sylius-payment-plugin",
+    "name": "bridge-payment-sylius/sylius-payment-plugin",
     "type": "project",
     "description": "Bridge's Sylius payment plugin by bank wire transfer",
     "keywords": ["bridge","symfony", "sylius", "payment", "plugin"],
     "license": "proprietary",
     "authors": [
         {
-            "name": "Rabah NEKKAH"
-        },
-        {
-            "name": "Ayman BENMADA"
-        },
-        {
-            "name": "Quentin DUBÈS"
+            "name": "Bridge API"
         }
     ],
     "require": {

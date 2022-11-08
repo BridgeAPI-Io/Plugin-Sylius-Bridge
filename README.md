@@ -10,22 +10,9 @@
 
 ## Installation
 
-Add in `composer.json`
-```json
-{
-    "repositories": [
-        {
-            "type": "path",
-            "url": "plugin/SyliusBridgePlugin",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
-    "require": {
-        "bridge/sylius-payment-plugin": "@dev"
-    }
-}
+Install the plugin with Composer:
+```bash
+composer require bridge-payment-sylius/sylius-payment-plugin
 ```
 
 Change your `config/bundles.php` file to add the line for the plugin :
