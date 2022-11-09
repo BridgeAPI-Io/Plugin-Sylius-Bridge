@@ -3,7 +3,7 @@
     "type": "project",
     "description": "Bridge's Sylius payment plugin by bank wire transfer",
     "keywords": ["bridge","symfony", "sylius", "payment", "plugin"],
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Bridge API"

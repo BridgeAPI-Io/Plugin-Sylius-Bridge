@@ -1,16 +1,31 @@
 <p align="center">
-    <img src="https://bridgeapi.io/wp-content/themes/Starter/assets/img/logo/logo-bridge_white.svg" width="250px" alt="Bridge - Sylius payment plugin" />
+    <img src="https://s3.eu-west-1.amazonaws.com/web.bridgeapi.io/bridge-api.png" width="250px" alt="Bridge - Sylius payment plugin" />
 </p>
 
 <h1 align="center">Bridge - Sylius Payment plugin</h1>
 
-<p>
-   Bridge développe avec ses clients un nouvel écosystème financier en Europe : plus ouvert, plus innovant et plus performant. Bridge permet d’initier des paiements, d’agréger, de standardiser et d’enrichir le traitement des données financières pour plus d’une centaine d’acteurs comme Cdiscount, Cegid, Sage, RCA, PayFit, Qonto ou encore FLOA, de manière sécurisée.
-</p>
+Bridge is a new instant transfer payment solution that allows you to increase your conversion rates by offering instant, secure and seamless collection of payments from your customers' accounts.  
+What this module does for you  
+Integrate Bridge, a secure plug-and-play payment solution, to increase your conversion rates at reduced costs. Enjoy easy reconciliation and low fraud rates.
+
+The Bridge payment solution allows merchants to:
+
+**- Offer high payment ceilings:**  
+Increase your conversion rates by allowing top carts to pay large sums instantly.  
+Take advantage of a low-cost payment solutionBoth cost management and cash flow management are simplified. You can take advantage of a more competitive cost than using a credit card by paying a low percentage only on the transactions made on your site.
+
+**- Enjoy instant payments:**  
+Receive funds in your bank account fast
+
+**- Benefit from irrevocability of payments:**  
+Payments are irrevocable. In other words, customers cannot cancel or modify their payments.
+
+**- Reduce fraud rates and offer secure payment**   
+With instant transfer, at the time of payment, your customer is authenticated directly to their online account. No sensitive data will be entered, which makes it possible to offer a secure payment process with a limited risk of fraud.
 
 ## Installation
 
-Install the plugin with Composer:
+Install the plugin form [Bridge packagist](https://packagist.org/packages/bridge-payment-sylius/sylius-payment-plugin) with Composer:
 ```bash
 composer require bridge-payment-sylius/sylius-payment-plugin
 ```
