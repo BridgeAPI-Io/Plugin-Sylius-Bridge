@@ -1,6 +1,7 @@
 {% import '@SyliusUi/Macro/flags.html.twig' as flags %}
 
-{% set webhookUrl = ( app.request.secure ? 'https://' : 'http://' ) ~ sylius.channel.hostname ~ path('bridge_payment_webhook') %}
+{% set webhookUrlProd = ( app.request.secure ? 'https://' : 'http://' ) ~ sylius.channel.hostname ~ path('bridge_payment_webhook') %}
+{% set webhookUrlSandbox = ( app.request.secure ? 'https://' : 'http://' ) ~ sylius.channel.hostname ~ path('bridge_payment_sandbox_webhook') %}
 
 {% include '@BridgeSyliusPaymentPlugin/PaymentMethod/Gateways/_explanationBlock.html.twig' %}
 

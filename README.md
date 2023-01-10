@@ -54,7 +54,23 @@ bridge_plugin_routing:
     resource: "@BridgeSyliusPaymentPlugin/Resources/config/routes.yaml"
 ```
 
-Generate a cypher key of your choice and add it to the .env file :
+Generate a cypher key (encyption key) using the following linux command :
+```bash
+openssl enc -aes-256-cbc -k secret -P -md sha1
+```
+
+When executing this command, a result like this should be displayed : 
+
+```bash
+user@linux:~$ openssl enc -aes-256-cbc -k secret -P -md sha1
+
+Using -iter or -pbkdf2 would be better.
+salt=A1540F931FD70663
+key=92206EDA1EF9E2EF2121396B2FCD2F9EA16193B98B03940C109E9CE422B0CC73
+iv =BF9DC31C16714F4CAD663090E1B4076F
+
+```
+You should copy the `key` and add it to the variable BRIDGE_CYPHER_KEY in your .env : 
 
 ```dotenv
 ###> Bridge Cypher key
@@ -62,17 +78,17 @@ BRIDGE_CYPHER_KEY=
 ###< Bridge Cypher key
 ```
 
-Execute the following commands to copy the necessary twig files : 
+Execute the following commands to copy the necessary twig files :
 
 ```bash 
-cp plugin/SyliusBridgePlugin/src/Resources/views/PaymentMethod/_form.html.twig templates/bundles/SyliusAdminBundle/PaymentMethod
+cp vendor/bridge-payment-sylius/sylius-payment-plugin/src/Resources/views/PaymentMethod/_form.html.twig templates/bundles/SyliusAdminBundle/PaymentMethod
 
-cp plugin/SyliusBridgePlugin/src/Resources/views/Checkout/SelectPayment/_payment.html.twig  templates/bundles/SyliusShopBundle/Checkout/SelectPayment 
+cp vendor/bridge-payment-sylius/sylius-payment-plugin/src/Resources/views/Checkout/SelectPayment/_payment.html.twig  templates/bundles/SyliusShopBundle/Checkout/SelectPayment 
 
-cp plugin/SyliusBridgePlugin/src/Resources/views/Order/show.html.twig templates/bundles/SyliusShopBundle/Order 
+cp vendor/bridge-payment-sylius/sylius-payment-plugin/src/Resources/views/Order/show.html.twig templates/bundles/SyliusShopBundle/Order 
 ```
 
-Replace the code in `templates/bundles/SyliusShopBundle/Checkout/SelectPayment/_choice.html.twig` with the following : 
+Replace the code in `templates/bundles/SyliusShopBundle/Checkout/SelectPayment/_choice.html.twig` with the following :
 
 ```html
 {% set isBridgePaymentMethod = method.gatewayConfig.factoryName == 'bridge-payment' %}
@@ -103,58 +119,7 @@ Replace the code in `templates/bundles/SyliusShopBundle/Checkout/SelectPayment/_
 </div>
 ```
 
-Replace the code in `templates/bundles/SyliusAdminBundle/Order/Show/_payment.html.twig` by the following : 
-
-```html 
-{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
-{% import '@SyliusUi/Macro/labels.html.twig' as label %}
-
-<div class="item">
-    <div class="right floated content">
-        {% include '@SyliusAdmin/Common/Label/paymentState.html.twig' with {'data': payment.state} %}
-    </div>
-    <i class="large payment icon"></i>
-    <div class="content">
-        <div class="header">
-            {{ payment.method }}
-        </div>
-        <div class="description">
-            {{ money.format(payment.amount, payment.order.currencyCode) }}
-        </div>
-    </div>
-    {% if sm_can(payment, 'complete', 'sylius_payment') %}
-        <div class="ui segment">
-            <form action="{{ path('sylius_admin_order_payment_complete', {'orderId': order.id, 'id': payment.id}) }}" method="post" novalidate>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token(payment.id) }}" />
-                <input type="hidden" name="_method" value="PUT">
-                <button type="submit" class="ui icon labeled tiny blue fluid loadable button"><i class="check icon"></i> {{ 'sylius.ui.complete'|trans }}</button>
-            </form>
-        </div>
-    {% endif %}
-    {% if sm_can(payment, 'refund', 'sylius_payment') %}
-        <div class="ui segment">
-            <form action="{{ path('sylius_admin_order_payment_refund', {'orderId': order.id, 'id': payment.id}) }}" method="post" novalidate>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token(payment.id) }}" />
-                <input type="hidden" name="_method" value="PUT">
-                <button type="submit" class="ui icon labeled tiny yellow fluid loadable button"><i class="reply all icon"></i> {{ 'sylius.ui.refund'|trans }}</button>
-            </form>
-        </div>
-    {% endif %}
-    {% if
-        payment.method.gatewayConfig.factoryName == 'sylius.pay_pal' and
-        payment.state == 'refunded'
-    %}
-        <div class="ui icon mini message">
-            <i class="paypal icon"></i>
-            <div class="content">
-                <p>{{ 'sylius.pay_pal.tender_type'|trans }}</p>
-            </div>
-        </div>
-    {% endif %}
-</div>
-```
-
-Update the entity `src/Entity/Payment/Payment.php` : 
+Update the entity `src/Entity/Payment/Payment.php` :
 
 ```php
 <?php
@@ -177,7 +142,7 @@ class Payment extends BasePayment
 }
 ```
 
-Update the entity `src/Entity/Payment/PaymentMethod` : 
+Update the entity `src/Entity/Payment/PaymentMethod` :
 
 ```php 
 <?php
@@ -210,16 +175,27 @@ class PaymentMethod extends BasePaymentMethod
 Apply migrations to your database :
 
  ```bash
-bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate
 ```
-For the list of banks, a html Mokup template is in your disposal at : 
+
+Rebuild cache for proper display of all translations :
+```bash
+php bin/console cache:clear
+php bin/console cache:warmup
+```
+
+For the list of banks, a html Mokup template is in your disposal at :
 
 ```
 plugin/SyliusBridgePlugin/src/Resources/views/Mokup/index.html.twig
 ```
 
-You can access the Mokup template using the following path: 
+You can access the Mokup template using After executing the following command :
+```bash
+php bin/console assets:install 
+```
 
+The path for the Mokup is the following :
 ```
 /admin/bridge/shop/mockup
 ```

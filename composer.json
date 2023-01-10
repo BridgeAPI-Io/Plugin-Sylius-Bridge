@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
-        "sylius/sylius": "^1.10",
+        "php": "^8.0",
+        "sylius/sylius": "^1.11",
         "ext-openssl": "*"
     },
     "require-dev": {
@@ -47,7 +47,8 @@
         "vimeo/psalm": "4.7.1",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
         "thecodingmachine/phpstan-safe-rule": "^1.0",
-        "thecodingmachine/phpstan-strict-rules": "^0.12.1"
+        "thecodingmachine/phpstan-strict-rules": "^0.12.1",
+        "thecodingmachine/safe": "^1.0"
     },
     "config": {
         "sort-packages": true,
