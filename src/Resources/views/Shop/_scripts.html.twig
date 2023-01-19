@@ -66,7 +66,9 @@
             }
             paymentMethods[i].addEventListener('change', function (evt) {
                 if (this.dataset.isBridgePaymentMethod === '1') {
-                    banksBlockEl.style.display = 'block';
+                    if (banksBlockEl !== null) {
+                        banksBlockEl.style.display = 'block';
+                    }
                     const bankRadioButtonEl = document.getElementsByName('bridge-payment-radio');
                     let isBankSelected = false;
                     for (let i = 0; i < bankRadioButtonEl.length; i++) {
@@ -82,13 +84,13 @@
                     if (!isBankSelected && syliusPayLink !== null) {
                         syliusPayLink.disabled = true;
                     }
-                } else {
+                } else if (banksBlockEl !== null) {
                     banksBlockEl.style.display = 'none';
                 }
             })
         }
 
-        if (nextButtonShouldBeDisabled === false) {
+        if (nextButtonShouldBeDisabled === false && banksBlockEl !== null) {
             banksBlockEl.style.display = 'none';
         } else {
             if (nextButton !== null) {

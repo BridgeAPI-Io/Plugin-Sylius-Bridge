@@ -232,7 +232,7 @@ final class BridgeWebhookService implements BridgeWebhookServiceInterface
                 // The client reference received from the API corresponds to the id of the payment
                 $clientReference = $payload->content->client_reference;
                 $payment = $this->paymentRepository->findOneBy(['id' => $clientReference]);
-                $this->bridgeStatusService->matchStatus($payload->content->status, $payment);
+                $this->bridgeStatusService->matchStatus($payload->content->status, $payment); //@phpstan-ignore-line
 
                 break;
             default:

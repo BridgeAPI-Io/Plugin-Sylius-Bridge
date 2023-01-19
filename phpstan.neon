@@ -12,6 +12,8 @@ parameters:
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getBankId\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getPaymentApiId\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::setBankId\(\).#'
+        - '#Call to method [a-zA-Z0-9\\_]+\(\) on an unknown class App\\Entity\\Payment\\PaymentMethod.#'
+        - '#Parameter \$[a-zA-Z0-9\\_]+ of method Bridge\\SyliusBridgePlugin\\EventListener\\PaymentMethodListener::[a-zA-Z0-9\\_]+\(\) has invalid typehint type App\\Entity\\Payment\\PaymentMethod.#'
     level: max
     checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false

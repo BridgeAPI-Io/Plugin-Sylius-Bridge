@@ -23,6 +23,9 @@ Payments are irrevocable. In other words, customers cannot cancel or modify thei
 **- Reduce fraud rates and offer secure payment**   
 With instant transfer, at the time of payment, your customer is authenticated directly to their online account. No sensitive data will be entered, which makes it possible to offer a secure payment process with a limited risk of fraud.
 
+
+To create sandbbox applications please refer to the following link : https://docs.bridgeapi.io/docs/dashboard
+
 ## Installation
 
 Install the plugin form [Bridge packagist](https://packagist.org/packages/bridge-payment-sylius/sylius-payment-plugin) with Composer:

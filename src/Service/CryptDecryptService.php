@@ -16,12 +16,12 @@ use function base64_encode;
 use function getenv;
 use function implode;
 use function is_bool;
+use function openssl_random_pseudo_bytes;
 use function Safe\base64_decode;
 use function Safe\openssl_cipher_iv_length;
 use function Safe\openssl_decrypt;
 use function Safe\openssl_digest;
 use function Safe\openssl_encrypt;
-use function Safe\openssl_random_pseudo_bytes;
 use function Safe\pack;
 use function Safe\unpack;
 use function strtoupper;
@@ -44,7 +44,8 @@ final class CryptDecryptService implements CryptDecryptServiceInterface
         try {
             $ivSize = openssl_cipher_iv_length(self::CYPHERING_METHOD);
 
-            return openssl_random_pseudo_bytes($ivSize);
+            return openssl_random_pseudo_bytes($ivSize); //@phpstan-ignore-line - the safe function not found
+
         //@phpstan-ignore-next-line
         } catch (OpensslException | Throwable $exception) {
             $this->logger->error('Iv generate error : ' . $exception->getMessage());
