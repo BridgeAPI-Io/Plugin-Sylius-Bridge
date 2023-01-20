@@ -187,18 +187,18 @@ php bin/console cache:clear
 php bin/console cache:warmup
 ```
 
-For the list of banks, a html Mokup template is in your disposal at :
+For the list of banks, an html Mokup template is in your disposal at :
 
 ```
 plugin/SyliusBridgePlugin/src/Resources/views/Mokup/index.html.twig
 ```
 
-You can access the Mokup template using After executing the following command :
+You can access the Mockup template after executing the following command :
 ```bash
 php bin/console assets:install 
 ```
 
-The path for the Mokup is the following :
+The path for the Mockup is the following :
 ```
 /admin/bridge/shop/mockup
 ```

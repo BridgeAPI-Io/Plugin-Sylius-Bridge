@@ -3,7 +3,7 @@ bridge:
         transaction_id: "Transaction ID"
     bridge_api:
         bridge_payment: "Immediate transfer by Bridge"
-    payment_method: 
+    payment_method:
         bank_payment_by_bridge: "Bank Payment by Bridge"
         accept_your_first_payments: "Accept your first payments in 10 minutes."
         explanation_block:
@@ -19,7 +19,7 @@ bridge:
             need_help: "Need help ?"
             available_coverage: "About the solution, available coverage ? Consult our FAQs "
             implementation_problem: "A problem with the implementation of the solution? Contact our technical team "
-            technical_problem: "A technical problem in production? Contact our support " 
+            technical_problem: "A technical problem in production? Contact our support "
             enable_disable: "Enable/disable "
             activate_module: "Activate the module"
             activate_the_module_to_include_the_bridge_instant_payment: "Activate this module to include the Instant Bridge Payment."
@@ -42,12 +42,15 @@ bridge:
             you_need_to_add_the_callback_url: "You need to add this callback URL "
             to_your_bridge_dashboard: "to your Bridge Dashboard > Webhooks > Add a webhook > And select this one: payment.transaction.updated. You can name the webhook whatever you want."
             click_here_to_create_an_account: "Click here to create an account"
-            production_environment: "Production environment" 
+            production_environment: "Production environment"
             production_client_id: "Production Client ID"
             production_client_secret: "Production Client Secret"
             production_webhook_secret: "Production Webhook Secret"
             check_production_credentials: "Check production credentials"
             check_production_webhook_status: "Check production Webhook status"
+            production_sandbox_webhook_status: "Production sandbox Webhook status"
+            click_here_to_check_production_credentials: "Click here to check production credentials"
+            click_here_to_check_test_credentials: "Click here to check test credentials"
     payment_checkout:
         description: "Pay for your purchases in one click. No IBAN entry required, secured by your bank, no additional cost."
         solution_authorized_by: "Payment solution authorized by "
