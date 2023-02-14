@@ -9,7 +9,8 @@ use Safe\Exceptions\MiscException;
 use Safe\Exceptions\OpensslException;
 use Safe\Exceptions\UrlException;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Throwable;
 
 use function base64_encode;
@@ -33,24 +34,33 @@ final class CryptDecryptService implements CryptDecryptServiceInterface
 {
     public const CYPHERING_METHOD = 'aes-256-cbc';
 
+    private SessionInterface $session;
+
     public function __construct(
         private Logger $logger,
-        private FlashBagInterface $flashBag
+        private RequestStack $requestStack
     ) {
+        $this->session = $this->requestStack->getSession();
     }
 
     public function generateIv(): string|bool
     {
         try {
             $ivSize = openssl_cipher_iv_length(self::CYPHERING_METHOD);
+            $strongResult = false;
+            $iv = false;
 
-            return openssl_random_pseudo_bytes($ivSize); //@phpstan-ignore-line - the safe function not found
+            while ($strongResult === false) {
+                $iv = openssl_random_pseudo_bytes($ivSize, $strongResult); //@phpstan-ignore-line - the safe function not found
+            }
+
+            return $iv;
 
         //@phpstan-ignore-next-line
         } catch (OpensslException | Throwable $exception) {
             $this->logger->error('Iv generate error : ' . $exception->getMessage());
 
-            $this->flashBag->add('error', 'Iv generate error : ' . $exception->getMessage());
+            $this->session->getFlashBag()->add('error', 'Iv generate error : ' . $exception->getMessage()); //@phpstan-ignore-line - polymorphism
         }
 
         return false;
@@ -66,7 +76,7 @@ final class CryptDecryptService implements CryptDecryptServiceInterface
         } catch (OpensslException | MiscException | Throwable $exception) {
             $this->logger->error('Encryption error : ' . $exception->getMessage());
 
-            $this->flashBag->add('error', 'Encryption error : ' . $exception->getMessage());
+            $this->session->getFlashBag()->add('error', 'Encryption error : ' . $exception->getMessage()); //@phpstan-ignore-line - polymorphism
         }
 
         return false;
@@ -84,7 +94,7 @@ final class CryptDecryptService implements CryptDecryptServiceInterface
         } catch (OpensslException | MiscException | Throwable $exception) {
             $this->logger->error('Decrypt error : ' . $exception->getMessage());
 
-            $this->flashBag->add('error', 'Decrypt error : ' . $exception->getMessage());
+            $this->session->getFlashBag()->add('error', 'Decrypt error : ' . $exception->getMessage()); //@phpstan-ignore-line - polymorphism
         }
 
         return false;

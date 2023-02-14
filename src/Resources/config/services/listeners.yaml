@@ -4,7 +4,7 @@ services:
         public: true
         arguments:
             - '@bridge.api_client'
-            - '@session.flash_bag'
+            - '@request_stack'
             - '@translator'
             - '@bridge.service.crypt_decrypt'
         tags:

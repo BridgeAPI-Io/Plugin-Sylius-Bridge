@@ -8,6 +8,7 @@ use Bridge\SyliusBridgePlugin\Client\BridgePaymentApiClientInterface;
 use Bridge\SyliusBridgePlugin\Controller\Action\Api\ApiAwareTrait;
 use Bridge\SyliusBridgePlugin\Service\CryptDecryptServiceInterface;
 use Bridge\SyliusBridgePlugin\Service\UserServiceInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
@@ -28,7 +29,6 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -38,6 +38,7 @@ use function abs;
 use function GuzzleHttp\json_decode;
 use function number_format;
 use function Safe\json_encode;
+use function str_contains;
 
 use const JSON_UNESCAPED_SLASHES;
 
@@ -53,7 +54,6 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         private Router $router,
         private ChannelContextInterface $channelContext,
         private RequestStack $requestStack,
-        private FlashBagInterface $flashBag,
         private TranslatorInterface $translator,
         private CryptDecryptServiceInterface $cryptDecryptService
     ) {
@@ -105,19 +105,23 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
 
         try {
             $res = $this->bridgePaymentApiClient->createBridgeRequestPayment($this->getRequestBody($payment, $token), $mode);
+            if ($res !== null) {
+                $response = json_decode((string) $res->getBody(), true);
+                $payment->setPaymentApiId($response['id']);
 
-            if ($res === null) {
-                $this->flashBag->add('error', $this->translator->trans('bridge.payment_checkout.an_error_has_occurred'));
+                throw new HttpRedirect($response['consent_url']);
+            }
+        } catch (RequestException | JsonException  | GuzzleException  $e) {
+            if ($e instanceof GuzzleException) {
+                $flashBag = $this->requestStack->getSession()->getFlashBag(); //@phpstan-ignore-line - polymorphism
+                $flashBag->add('error', $this->translator->trans('bridge.payment_checkout.an_error_has_occurred'));
+                if (str_contains($e->getMessage(), 'Currency')) {
+                    $flashBag->add('error', $this->translator->trans('bridge.payment_checkout.currency_not_supported'));
 
-                return;
+                    return;
+                }
             }
 
-            $response = json_decode((string) $res->getBody(), true);
-
-            $payment->setPaymentApiId($response['id']);
-
-            throw new HttpRedirect($response['consent_url']);
-        } catch (RequestException | JsonException $e) {
             $payment->setDetails(['status' => 400]);
         }
     }

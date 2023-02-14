@@ -75,7 +75,7 @@ services:
         public: true
         arguments:
             - '@monolog.logger'
-            - '@session.flash_bag'
+            - '@request_stack'
     
     Bridge\SyliusBridgePlugin\Service\BridgeWebhookServiceInterface:
         alias: bridge.service.webhook

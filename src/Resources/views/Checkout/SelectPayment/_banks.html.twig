@@ -61,7 +61,7 @@
                             </div>
                             <div class="bridge-payment-bank-form">
                                 <div id="bridge-banks-list" class="bridge-payment-banks">
-                                    {{ render(controller('bridge.action.fetch_banks:__invoke')) }}
+                                    {{ render(controller('bridge.action.fetch_banks')) }}
                                 </div>
                                 <span class="bridge-payment-link-more">{{ 'bridge.payment_checkout.scroll_down_to_see_more_banks'|trans }}
                                     <img src="{{ asset('bundles/bridgesyliuspaymentplugin/images/down-arrow.png') }}" alt="image description">

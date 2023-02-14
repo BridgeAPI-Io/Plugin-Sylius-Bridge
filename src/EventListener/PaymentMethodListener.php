@@ -10,14 +10,14 @@ use Bridge\SyliusBridgePlugin\Client\BridgePaymentApiClientInterface;
 use Bridge\SyliusBridgePlugin\Service\CryptDecryptServiceInterface;
 use Safe\Exceptions\UrlException;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PaymentMethodListener
 {
     public function __construct(
         private BridgePaymentApiClientInterface $client,
-        private FlashBagInterface $flashBag,
+        private RequestStack $requestStack,
         private TranslatorInterface $translator,
         private CryptDecryptServiceInterface $cryptDecryptService
     ) {
@@ -73,9 +73,11 @@ class PaymentMethodListener
 
         $paymentMethod->setEnabled(false);
 
-        $this->flashBag->add('warning', $this->translator->trans('bridge.payment_method.invalid_or_not_supplied_api_keys', [], 'flashes'));
+        $flashBag = $this->requestStack->getSession()->getFlashBag(); //@phpstan-ignore-line - polymorphism
 
-        $this->flashBag->add('warning', $this->translator->trans('bridge.payment_method.unable_to_activate_the_bridge_plugin', [], 'flashes'));
+        $flashBag->add('warning', $this->translator->trans('bridge.payment_method.invalid_or_not_supplied_api_keys', [], 'flashes'));
+
+        $flashBag->add('warning', $this->translator->trans('bridge.payment_method.unable_to_activate_the_bridge_plugin', [], 'flashes'));
     }
 
     private function checkPaymentMethodEnabledField(PaymentMethod $paymentMethod): void

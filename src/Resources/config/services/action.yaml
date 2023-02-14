@@ -9,7 +9,6 @@ services:
             - "@router"
             - "@sylius.context.channel"
             - '@request_stack'
-            - '@session.flash_bag'
             - '@translator'
             - '@bridge.service.crypt_decrypt'
         tags:

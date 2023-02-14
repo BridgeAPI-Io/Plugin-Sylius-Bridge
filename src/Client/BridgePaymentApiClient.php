@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface;
 use Safe\Exceptions\JsonException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function GuzzleHttp\json_decode;
 use function Safe\json_encode;
@@ -38,6 +39,8 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
     protected ?string $testClientSecret = null;
 
     protected ?string $testWebhookSecret = null;
+
+    protected ?TranslatorInterface $translator;
 
     public function __construct(
         protected ClientInterface $client,
@@ -118,7 +121,7 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
         } catch (GuzzleException $exception) {
             $this->logger->error($exception->getMessage());
 
-            return null;
+            throw $exception;
         }
 
         return $response;

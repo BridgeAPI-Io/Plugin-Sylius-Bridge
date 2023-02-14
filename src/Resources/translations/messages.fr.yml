@@ -65,3 +65,4 @@ bridge:
         an_error_has_occurred: "Une erreur s'est produite, veuillez réessayer plus tard." 
         your_order_is_confirmed: "Votre commande est confirmée."
         order_confirmation_message: "Vous avez choisi de régler votre commande par virement immédiat en utilisant la solution Bridge. Votre virement est en attente d'exécution par votre banque. Votre commande sera expédiée dès l'exécution du virement par votre banque."
+        currency_not_supported: "La devise n'est pas prise en charge."

@@ -3,7 +3,7 @@ bridge:
         transaction_id: "Transaction ID"
     bridge_api:
         bridge_payment: "Immediate transfer by Bridge"
-    payment_method:
+    payment_method: 
         bank_payment_by_bridge: "Bank Payment by Bridge"
         accept_your_first_payments: "Accept your first payments in 10 minutes."
         explanation_block:
@@ -19,7 +19,7 @@ bridge:
             need_help: "Need help ?"
             available_coverage: "About the solution, available coverage ? Consult our FAQs "
             implementation_problem: "A problem with the implementation of the solution? Contact our technical team "
-            technical_problem: "A technical problem in production? Contact our support "
+            technical_problem: "A technical problem in production? Contact our support " 
             enable_disable: "Enable/disable "
             activate_module: "Activate the module"
             activate_the_module_to_include_the_bridge_instant_payment: "Activate this module to include the Instant Bridge Payment."
@@ -42,7 +42,7 @@ bridge:
             you_need_to_add_the_callback_url: "You need to add this callback URL "
             to_your_bridge_dashboard: "to your Bridge Dashboard > Webhooks > Add a webhook > And select this one: payment.transaction.updated. You can name the webhook whatever you want."
             click_here_to_create_an_account: "Click here to create an account"
-            production_environment: "Production environment"
+            production_environment: "Production environment" 
             production_client_id: "Production Client ID"
             production_client_secret: "Production Client Secret"
             production_webhook_secret: "Production Webhook Secret"
@@ -65,4 +65,5 @@ bridge:
         an_error_has_occurred: 'An error has occurred, please try again later.'
         your_order_is_confirmed: "Your order is confirmed."
         order_confirmation_message: "You have chosen to pay for your order by immediate transfer using the Bridge solution. Your transfer is awaiting execution by your bank. Your order will be dispatched as soon as the transfer is carried out by your bank."
+        currency_not_supported: "The currency is not supported."
 
