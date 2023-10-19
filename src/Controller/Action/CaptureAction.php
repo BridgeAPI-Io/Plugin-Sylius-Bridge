@@ -30,7 +30,7 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
@@ -51,7 +51,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         BridgePaymentApiClientInterface $bridgePaymentApiClient,
         private CurrencyContextInterface $currencyContext,
         private UserServiceInterface $securityService,
-        private Router $router,
+        private RouterInterface $router,
         private ChannelContextInterface $channelContext,
         private RequestStack $requestStack,
         private TranslatorInterface $translator,
@@ -162,7 +162,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
 
     private function getUnsuccessfulCallbackUrl(TokenInterface $token): ?string
     {
-        $path = $this->router->getGenerator()->generate(
+        $path = $this->router->generate(
             'bridge_failed_status',
             ['payum_token' => $token->getHash()],
             UrlGeneratorInterface::ABSOLUTE_PATH
