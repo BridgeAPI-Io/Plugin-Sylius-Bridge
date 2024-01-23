@@ -8,15 +8,9 @@
                             {{ 'bridge.payment_checkout.description'|trans }}
                         </p>
                         <br>
-                        <p class="bridge-checkout-text-word-spacing">
-                            {{ 'bridge.payment_checkout.solution_authorized_by'|trans }}
-                            <img style="float: none; max-height: 30px;" src="{{ asset('bundles/bridgesyliuspaymentplugin/images/banque_de_france.png') }}" alt="image description">
-                        </p>
-                        <br>
                     </div>
                     <div class="bridge-payment-open-close">
-                        <a href="#"
-                           class="bridge-payment-opener bridge-payment-active bridge-checkout-text-word-spacing">{{ 'bridge.payment_checkout.how_it_works'|trans }} </a>
+                        <p class="bridge-payment-active bridge-checkout-text-word-spacing">{{ 'bridge.payment_checkout.how_it_works'|trans }} </p>
                         <div class="bridge-payment-slide">
                             <ul class="bridge-payment-steps-list">
                                 <li>
@@ -68,6 +62,16 @@
                                 </span>
                             </div>
                         </div>
+                    </div>
+                    <div class="">
+                        <br>
+                        <p class="bridge-checkout-text-word-spacingt">
+                            {{ 'bridge.payment_checkout.you_continuously_accept_the'|trans }}
+                            <a href="https://pay.bridgeapi.io/pdf/cgs-{{ app.request.locale == 'fr' ? 'fr' : 'en'  }}.pdf" target="_blank">{{ 'bridge.payment_checkout.cgs'|trans }}</a>
+                            {{ 'bridge.payment_checkout.and_the'|trans }}
+                            <a href="https://pay.bridgeapi.io/pdf/information_statement_{{ app.request.locale == 'fr' ? 'FR' : 'EN' }}.pdf" target="_blank">{{ 'bridge.payment_checkout.information_notice_from_bridge'|trans }}</a>
+                            {{ 'bridge.payment_checkout.an_approved_payment_institution'|trans }}
+                        </p>
                     </div>
                 </div>
             </div>

@@ -52,15 +52,20 @@ bridge:
             click_here_to_check_production_credentials: "Click here to check production credentials"
             click_here_to_check_test_credentials: "Click here to check test credentials"
     payment_checkout:
-        description: "Pay for your purchases in one click. No IBAN entry required, secured by your bank, no additional cost."
+        description: "Pay by bank transfer with Bridge. Settle your order by validating the transfer directly from your bank: simple, 100% secure and without credit card."
         solution_authorized_by: "Payment solution authorized by "
-        how_it_works: "How it works ?"
+        how_it_works: "How does it works ?"
         select_your_bank: "Select your bank"
         authentication: "Authentication"
         validation: "Validation"
         finished: "Finished !"
         search_a_bank: "Search a bank"
         scroll_down_to_see_more_banks: "Scroll down to see more banks"
+        you_continuously_accept_the: "By continuing, you agree to the "
+        cgs: 'ToS'
+        and_the: "and the "
+        information_notice_from_bridge: "information statement"
+        an_approved_payment_institution: " of Bridge, a licensed payment institution."
         list_of_banks_not_available: "The list of banks is temporarily unavailable, please try again later."
         an_error_has_occurred: 'An error has occurred, please try again later.'
         your_order_is_confirmed: "Your order is confirmed."

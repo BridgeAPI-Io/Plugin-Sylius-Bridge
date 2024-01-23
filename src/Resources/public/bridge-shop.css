@@ -26,12 +26,16 @@ img {
 
 .bridge-payment-payment-holder {
     background-color: #fafafa;
-    padding: 23px 0 23px 0;
+    padding: 23px 0 23px 5px;
     box-sizing: border-box;
 }
 
 .bridge-payment-payment-holder a {
     text-decoration: none;
+}
+
+.bridge-payment-slide {
+    margin-top: 1rem;
 }
 
 .bridge-payment-js-hidden {
@@ -235,7 +239,7 @@ img {
 
 @media (min-width: 1024px) {
     .bridge-payment-bank-form label {
-        width: 50%;
+        width: 47%;
         float: left;
     }
 }
@@ -290,7 +294,7 @@ img {
 
 @media (min-width: 480px) {
     .bridge-payment-payment-holder {
-        padding: 23px 0 23px 0;
+        padding: 23px 0px 23px 5px;
     }
 
     .bridge-payment-steps-list {

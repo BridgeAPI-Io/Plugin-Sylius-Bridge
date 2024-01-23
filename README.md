@@ -62,7 +62,7 @@ Generate a cypher key (encyption key) using the following linux command :
 openssl enc -aes-256-cbc -k secret -P -md sha1
 ```
 
-When executing this command, a result like this should be displayed :
+When executing this command, a result like this should be displayed : 
 
 ```bash
 user@linux:~$ openssl enc -aes-256-cbc -k secret -P -md sha1
@@ -73,7 +73,7 @@ key=92206EDA1EF9E2EF2121396B2FCD2F9EA16193B98B03940C109E9CE422B0CC73
 iv =BF9DC31C16714F4CAD663090E1B4076F
 
 ```
-You should copy the `key` and add it to the variable BRIDGE_CYPHER_KEY in your .env :
+You should copy the `key` and add it to the variable BRIDGE_CYPHER_KEY in your .env : 
 
 ```dotenv
 ###> Bridge Cypher key
