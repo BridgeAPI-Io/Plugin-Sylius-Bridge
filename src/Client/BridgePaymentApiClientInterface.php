@@ -22,7 +22,7 @@ interface BridgePaymentApiClientInterface
         ?string $testWebhookSecret
     ): void;
 
-    public function getBanks(string $mode): ?array;
+    public function getBanks(string $mode, ?string $localCode = null): ?array;
 
     public function createBridgeRequestPayment(string $body, string $mode = 'test'): ?ResponseInterface;
 

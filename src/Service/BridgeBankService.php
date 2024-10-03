@@ -7,7 +7,7 @@ namespace Bridge\SyliusBridgePlugin\Service;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 
 use function array_column;
-use function array_merge;
+use function array_filter;
 use function array_multisort;
 use function in_array;
 use function str_starts_with;
@@ -19,7 +19,7 @@ use const SORT_ASC;
 
 final class BridgeBankService implements BridgeBankServiceInterface
 {
-    public const BANKS_TO_IGNORE = [159, 179, 5];
+    public const BANKS_TO_IGNORE = [152, 179, 5];
 
     public function __construct(
         private LocaleContextInterface $localeContext
@@ -31,28 +31,18 @@ final class BridgeBankService implements BridgeBankServiceInterface
      */
     private function getLocaleBanks(array $banks): array
     {
-        $localBanks = [];
+        $localeCode = strtolower($this->localeContext->getLocaleCode());
 
-        foreach ($banks as $bank) {
-            if (strtolower($bank['country_code']) !== strtolower($this->localeContext->getLocaleCode())) {
-                continue;
-            }
-
-            $localBanks[] = $bank;
-        }
-
-        return $localBanks;
+        return array_filter($banks, static function ($bank) use ($localeCode): bool {
+            return strtolower($bank['country_code']) === strtolower($localeCode);
+        });
     }
 
     /**
      * This will sort the banks alphabetically
      */
-    public function sortBanks(?array $banks): ?array
+    public function sortBanks(array $banks): array
     {
-        if ($banks === null) {
-            return null;
-        }
-
         $name = array_column($banks, 'name');
 
         array_multisort($name, SORT_ASC, $banks);
@@ -62,71 +52,39 @@ final class BridgeBankService implements BridgeBankServiceInterface
 
     /**
      * This function will sort the banks
-     * The list will contain the locale banks then the rest of non locale banks
+     * The list will contain only the locale banks
      */
     public function getSortedBanks(array $banks): array
     {
+        $banks = $this->ignoreBanks($banks);
+
         $localeBanks = $this->getLocaleBanks($banks);
 
-        $sortedLocaleBanks = $this->sortBanks($localeBanks);
-
-        $otherBanks = [];
-
-        foreach ($banks as $bank) {
-            // Ignore LCL banks
-            if (in_array($bank['id'], self::BANKS_TO_IGNORE, true)) {
-                continue;
-            }
-
-            if (in_array($bank, $localeBanks, true)) {
-                continue;
-            }
-
-            $otherBanks[] = $bank;
-        }
-
-        $sortedOtherBanks = $this->sortBanks($otherBanks);
-
-        if ($sortedLocaleBanks === null) {
-            $sortedLocaleBanks = [];
-        }
-
-        if ($sortedOtherBanks === null) {
-            $sortedOtherBanks = [];
-        }
-
-        return array_merge($sortedLocaleBanks, $sortedOtherBanks);
+        return $this->sortBanks($localeBanks);
     }
 
-    public function filterBanks(?array $banks, string $search): ?array
+    public function filterBanks(array $banks, string $search): array
     {
-        if (trim($search) === '') {
+        $search = trim($search);
+
+        if ($search === '') {
             return $banks;
         }
 
-        if ($banks === null) {
-            return null;
-        }
-
-        $filteredList = [];
-
         $searchToUpper = strtoupper($search);
 
-        foreach ($banks as $bank) {
-            $bankName = strtoupper($bank['name']);
+        return array_filter($banks, static function ($bank) use ($searchToUpper): bool {
+            return str_starts_with(strtoupper($bank['name']), $searchToUpper);
+        });
+    }
 
-            // Ignore LCL banks
-            if (in_array($bank['id'], self::BANKS_TO_IGNORE, true)) {
-                continue;
-            }
-
-            if (! str_starts_with($bankName, $searchToUpper)) {
-                continue;
-            }
-
-            $filteredList[] = $bank;
-        }
-
-        return $filteredList;
+    /**
+     * This will filter out ignored banks
+     */
+    public function ignoreBanks(array $banks): array
+    {
+        return array_filter($banks, static function ($bank): bool {
+            return ! in_array($bank['id'], self::BANKS_TO_IGNORE, true);
+        });
     }
 }

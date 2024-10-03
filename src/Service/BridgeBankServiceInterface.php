@@ -15,10 +15,15 @@ interface BridgeBankServiceInterface
     /**
      * This function will filter the list of banks by search word
      */
-    public function filterBanks(?array $banks, string $search): ?array;
+    public function filterBanks(array $banks, string $search): array;
 
     /**
      * This will sort the banks alphabetically
      */
-    public function sortBanks(?array $banks): ?array;
+    public function sortBanks(array $banks): array;
+
+    /**
+     * This will filter out ignored banks
+     */
+    public function ignoreBanks(array $banks): array;
 }

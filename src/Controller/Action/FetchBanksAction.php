@@ -14,6 +14,7 @@ use Safe\Exceptions\MiscException;
 use Safe\Exceptions\OpensslException;
 use Safe\Exceptions\UrlException;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,6 +33,7 @@ final class FetchBanksAction
         private TemplatingServiceInterface $templatingService,
         private BridgeBankServiceInterface $bankService,
         private CryptDecryptService $cryptDecryptService,
+        private LocaleContextInterface $localeContext,
     ) {
         $this->paymentMethod = $this->bridgePaymentGatewayService->getBridgePaymentMethod();
 
@@ -56,13 +58,15 @@ final class FetchBanksAction
     public function __invoke(Request $request): Response
     {
         //@phpstan-ignore-next-line
-        $banksResources = $this->paymentMethod->isTestMode() === false ? $this->client->getBanks('production') : $this->client->getBanks('test');
-        $banks = $banksResources !== null ? $this->bankService->getSortedBanks($banksResources['resources']) : null;
+        $mode = $this->paymentMethod->isTestMode() === false ? 'production' : 'test';
+        $banksResources = $this->client->getBanks($mode, $this->localeContext->getLocaleCode());
+        $banks = $banksResources !== null ? $this->bankService->getSortedBanks($banksResources['resources']) : [];
 
-        // This will allow to apply the banks filter by name if $bank is not empty
-        $bank = $request->get('bank');
-        if ($bank !== '' && $bank !== null) {
-            $banks = $banksResources !== null ? $this->bankService->filterBanks($banks, $bank) : null;
+        // This will allow to apply the banks filter by name if $bankFilter is not empty
+        /** @var ?string $bankFilter */
+        $bankFilter = $request->get('bank');
+        if ($bankFilter !== '' && $bankFilter !== null) {
+            $banks = $this->bankService->filterBanks($banks, $bankFilter);
         }
 
         return $this->templatingService->renderFromTemplate(

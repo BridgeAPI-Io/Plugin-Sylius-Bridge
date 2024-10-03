@@ -11,8 +11,11 @@ use Psr\Http\Message\ResponseInterface;
 use Safe\Exceptions\JsonException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+use function array_merge;
 use function GuzzleHttp\json_decode;
 use function Safe\json_encode;
+use function strtolower;
+use function urlencode;
 
 class BridgePaymentApiClient implements BridgePaymentApiClientInterface
 {
@@ -22,6 +25,8 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
     public const WEBHOOK_TEST_EVENT = 'TEST_EVENT';
 
     // Bridge API Endpoints
+    private const BASE_URI = 'https://api.bridgeapi.io';
+
     private const GET_BANKS_ENDPOINT = 'https://api.bridgeapi.io/v2/banks?capabilities=single_payment&limit=500';
 
     private const CREATE_PAYMENT_REQUEST_ENDPOINT = 'https://api.bridgeapi.io/v2/payment-requests';
@@ -64,9 +69,24 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
         $this->testWebhookSecret = $testWebhookSecret;
     }
 
-    public function getBanks(string $mode): ?array
+    public function getBanks(string $mode, ?string $localCode = null): ?array
     {
-        return $this->request($mode, 'GET', self::GET_BANKS_ENDPOINT);
+        $bankResources = [];
+        $url = self::GET_BANKS_ENDPOINT;
+
+        if ($localCode !== null) {
+            $url .= '&countries=' . urlencode(strtolower($localCode));
+        }
+
+        do {
+            $response = $this->request($mode, 'GET', $url);
+            $resources = $response['resources'] ?? [];
+            $bankResources = array_merge($bankResources, $resources);
+
+            $url = isset($response['pagination']['next_uri']) ? self::BASE_URI . $response['pagination']['next_uri'] : null;
+        } while ($url !== null);
+
+        return ['resources' => $bankResources];
     }
 
     public function createBridgeRequestPayment(string $body, string $mode = 'test'): ?ResponseInterface

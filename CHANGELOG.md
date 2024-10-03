@@ -12,6 +12,8 @@
 
 - Fix router DI in CaptureAction
 
-### v0.0.6 (23-01-2024)
+### v0.0.6 (2024-10-02)
 
-- Add and change some of the front wordings
+- Display banks based on the localCode of the application
+- Manage pagination when fetching the banks list
+- Update the list of IDs of banks to ignore when fetching the list
