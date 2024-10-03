@@ -8,11 +8,15 @@
 
 - Add Symfony 6 compatibility
 
-### v0.0.5 (23-10-2023)
+### v0.0.5 (2023-11-07)
 
 - Fix router DI in CaptureAction
 
-### v0.0.6 (2024-10-02)
+### v0.0.6 (2024-01-23)
+
+- Add and change some front wordings.
+
+### v0.0.7 (2024-10-02)
 
 - Display banks based on the localCode of the application
 - Manage pagination when fetching the banks list
