@@ -21,3 +21,7 @@
 - Display banks based on the localCode of the application
 - Manage pagination when fetching the banks list
 - Update the list of IDs of banks to ignore when fetching the list
+
+### v0.0.8 (2024-10-04)
+
+- Change Bridge logo with the new one 
