@@ -3,8 +3,8 @@ bridge:
         transaction_id: "Transaction ID"
     bridge_api:
         bridge_payment: "Immediate transfer by Bridge"
-    payment_method: 
-        bank_payment_by_bridge: "Bank Payment by Bridge"
+    payment_method:
+        pay_by_bank_transfer: "Pay by bank transfer"
         accept_your_first_payments: "Accept your first payments in 10 minutes."
         explanation_block:
             test_bridge: "Test Bridge"

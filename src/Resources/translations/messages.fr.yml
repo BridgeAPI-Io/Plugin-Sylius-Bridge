@@ -4,7 +4,7 @@ bridge:
     bridge_api:
         bridge_payment: "Virement immédiat par Bridge"
     payment_method:
-        bank_payment_by_bridge: "Paiement Bancaire par Bridge"
+        pay_by_bank_transfer: "Payer par virement bancaire"
         accept_your_first_payments: "Acceptez vos premiers paiements en 10 minutes."
         explanation_block:
             test_bridge: "Tester Bridge"

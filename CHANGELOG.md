@@ -24,4 +24,9 @@
 
 ### v0.0.8 (2024-10-04)
 
-- Change Bridge logo with the new one 
+- Change Bridge logo with the new one
+
+
+### v0.0.9 (2024-10-08)
+
+- Update the principal label on the bridge payment method in the admin panel
