@@ -23,6 +23,7 @@ bridge:
             enable_disable: "Enable/disable "
             activate_module: "Activate the module"
             activate_the_module_to_include_the_bridge_instant_payment: "Activate this module to include the Instant Bridge Payment."
+            payment_account: "Payment account"
             bridge_logo: "Bridge logo"
             display_the_bridge_logo: "Display the bridge logo"
             display_the_bridge_logo_in_the_order_page: "Display the Bridge logo on checkout page payment method"

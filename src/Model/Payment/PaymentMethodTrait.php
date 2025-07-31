@@ -15,6 +15,9 @@ trait PaymentMethodTrait
     /** @ORM\Column(name="bridge_logo", type="boolean", options={"default":true})) */
     private bool $bridgeLogo = true;
 
+    /** @ORM\Column(name="payment_account", type="boolean", options={"default":false})) */
+    private bool $paymentAccount = false;
+
     /** @ORM\Column(name="bridge_test_webhook_configuration_date", type="datetime", nullable=true) */
     private ?DateTime $testWebhookConfigurationDate = null;
 
@@ -59,5 +62,15 @@ trait PaymentMethodTrait
     public function setProductionWebhookConfigurationDate(?DateTime $productionWebhookConfigurationDate): void
     {
         $this->productionWebhookConfigurationDate = $productionWebhookConfigurationDate;
+    }
+
+    public function isPaymentAccount(): bool
+    {
+        return $this->paymentAccount;
+    }
+
+    public function setPaymentAccount(bool $paymentAccount): void
+    {
+        $this->paymentAccount = $paymentAccount;
     }
 }

@@ -61,6 +61,10 @@ final class PaymentMethodTypeExtension extends AbstractTypeExtension
             ->add('bridgeLogo', CheckboxType::class, [
                 'required' => false,
                 'label' => 'bridge.payment_method.explanation_block.bridge_logo',
+            ])
+            ->add('paymentAccount', CheckboxType::class, [
+                'required' => false,
+                'label' => 'bridge.payment_method.explanation_block.payment_account',
             ]);
     }
 

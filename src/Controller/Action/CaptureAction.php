@@ -137,13 +137,22 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
 
         $amount = $this->getFormattedAmount($payment);
 
-        $transactions = (object) [
-            'amount' => $amount,
-            'currency' => $payment->getCurrencyCode(),
-            'label' => $this->channelContext->getChannel()->getName(),
-            'client_reference' => (string) $payment->getId(),
-            'end_to_end_id' => (string) $payment->getId(),
-        ];
+        if ($payment->getMethod()?->isPaymentAccount()) {
+            $transactions = (object) [
+                'amount' => $amount,
+                'currency' => $payment->getCurrencyCode(),
+                'client_reference' => (string) $payment->getId(),
+                'end_to_end_id' => (string) $payment->getId(),
+            ];
+        } else {
+            $transactions = (object) [
+                'amount' => $amount,
+                'currency' => $payment->getCurrencyCode(),
+                'label' => $this->channelContext->getChannel()->getName(),
+                'client_reference' => (string) $payment->getId(),
+                'end_to_end_id' => (string) $payment->getId(),
+            ];
+        }
 
         $user = (object) [
             'name' => $customer?->getFullName(),

@@ -18,6 +18,8 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use function Safe\substr;
+
 final class FetchBanksAction
 {
     private ?array $config;
@@ -59,7 +61,10 @@ final class FetchBanksAction
     {
         //@phpstan-ignore-next-line
         $mode = $this->paymentMethod->isTestMode() === false ? 'production' : 'test';
-        $banksResources = $this->client->getBanks($mode, $this->localeContext->getLocaleCode());
+
+        $localeCode = substr($this->localeContext->getLocaleCode(), 0, 2);
+
+        $banksResources = $this->client->getBanks($mode, $localeCode);
         $banks = $banksResources !== null ? $this->bankService->getSortedBanks($banksResources['resources']) : [];
 
         // This will allow to apply the banks filter by name if $bankFilter is not empty

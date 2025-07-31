@@ -10,6 +10,7 @@ use function array_column;
 use function array_filter;
 use function array_multisort;
 use function in_array;
+use function Safe\substr;
 use function str_starts_with;
 use function strtolower;
 use function strtoupper;
@@ -31,7 +32,7 @@ final class BridgeBankService implements BridgeBankServiceInterface
      */
     private function getLocaleBanks(array $banks): array
     {
-        $localeCode = strtolower($this->localeContext->getLocaleCode());
+        $localeCode = strtolower(substr($this->localeContext->getLocaleCode(), 0, 2));
 
         return array_filter($banks, static function ($bank) use ($localeCode): bool {
             return strtolower($bank['country_code']) === strtolower($localeCode);

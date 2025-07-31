@@ -30,3 +30,8 @@
 ### v0.0.9 (2024-10-08)
 
 - Update the principal label on the bridge payment method in the admin panel
+
+### v1.0.0 (2025-07-31)
+
+- Add payment account feature with new database field
+- Refactor locale code handling in BridgeBankService

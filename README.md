@@ -181,7 +181,18 @@ Apply migrations to your database :
 php bin/console doctrine:migrations:migrate
 ```
 
-Rebuild cache for proper display of all translations :
+> **⚠️ Important:**  
+> Starting from version **1.0.0**, a specific migration is required to ensure proper functionality of the plugin.  
+> After upgrading, execute the following migration:
+>
+> ```bash
+> php bin/console doctrine:migrations:execute Version20250716095124
+> ```
+>
+> **Be sure to back up your database before executing the migration.**
+
+Rebuild cache for proper display of all translations:
+
 ```bash
 php bin/console cache:clear
 php bin/console cache:warmup

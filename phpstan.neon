@@ -9,6 +9,7 @@ parameters:
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentMethod::getTestWebhookConfigurationDate\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentMethod::getProductionWebhookConfigurationDate\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::setPaymentApiId\(\).#'
+        - '#Call to an undefined method Sylius\\Component\\Payment\\Model\\PaymentMethodInterface::isPaymentAccount\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getBankId\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getPaymentApiId\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::setBankId\(\).#'
