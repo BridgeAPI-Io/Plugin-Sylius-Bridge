@@ -3,5 +3,5 @@ services:
         class: Bridge\SyliusBridgePlugin\Client\BridgePaymentApiClient
         public: true
         arguments:
-            - "@sylius.http_client"
+            - "@http_client"
             - "@monolog.logger"

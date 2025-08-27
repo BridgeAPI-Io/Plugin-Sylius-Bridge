@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Bridge\SyliusBridgePlugin\Client;
 
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
 use Monolog\Logger;
-use Psr\Http\Message\ResponseInterface;
 use Safe\Exceptions\JsonException;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function array_merge;
-use function GuzzleHttp\json_decode;
+use function assert;
+use function is_array;
+use function Safe\json_decode;
 use function Safe\json_encode;
 use function strtolower;
 use function urlencode;
@@ -48,8 +50,8 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
     protected ?TranslatorInterface $translator;
 
     public function __construct(
-        protected ClientInterface $client,
-        protected Logger $logger
+        protected HttpClientInterface $client,
+        protected Logger $logger,
     ) {
     }
 
@@ -59,7 +61,7 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
         ?string $webhookSecret,
         ?string $testClientId,
         ?string $testClientSecret,
-        ?string $testWebhookSecret
+        ?string $testWebhookSecret,
     ): void {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
@@ -102,6 +104,8 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
     }
 
     /**
+     * @param array<string, string> $body
+     *
      * @throws JsonException
      */
     public function getBody(array $body): string
@@ -109,6 +113,7 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
         return json_encode($body);
     }
 
+    /** @return array<string, string|null> */
     protected function getHeaders(string $mode): array
     {
         $headers = [
@@ -131,14 +136,13 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
     protected function createRequestPayment(string $mode, string $method, string $url, ?string $body = null): ?ResponseInterface
     {
         $options = ['headers' => $this->getHeaders($mode)];
-
         if ($body !== null) {
             $options['body'] = $body;
         }
 
         try {
             $response = $this->client->request($method, $url, $options);
-        } catch (GuzzleException $exception) {
+        } catch (TransportExceptionInterface $exception) {
             $this->logger->error($exception->getMessage());
 
             throw $exception;
@@ -150,19 +154,21 @@ class BridgePaymentApiClient implements BridgePaymentApiClientInterface
     protected function request(string $mode, string $method, string $url, ?string $body = null): ?array
     {
         $options = ['headers' => $this->getHeaders($mode)];
-
         if ($body !== null) {
             $options['body'] = $body;
         }
 
         try {
             $result = $this->client->request($method, $url, $options);
-        } catch (GuzzleException $exception) {
+        } catch (TransportExceptionInterface $exception) {
             $this->logger->error($exception->getMessage());
 
             return null;
         }
 
-        return json_decode((string) $result->getBody(), true);
+        $data = json_decode($result->getContent(), true);
+        assert(is_array($data));
+
+        return $data;
     }
 }

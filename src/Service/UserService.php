@@ -10,8 +10,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-use function gettype;
-
 final class UserService implements UserServiceInterface
 {
     public function __construct(private TokenStorageInterface $tokenStorage)
@@ -52,17 +50,12 @@ final class UserService implements UserServiceInterface
     {
         /** @var ?TokenInterface $token */
         $token = $this->tokenStorage->getToken();
-
         if ($token === null) {
             return null;
         }
 
         /** @var AdminUser|ShopUser|null $user */
         $user = $token->getUser();
-
-        if (gettype($user) === 'string') {
-            $user = null;
-        }
 
         return $user;
     }

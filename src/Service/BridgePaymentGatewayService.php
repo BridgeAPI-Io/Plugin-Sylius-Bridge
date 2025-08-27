@@ -24,6 +24,8 @@ class BridgePaymentGatewayService
     /**
      * This function allows to retrieve the configured Bridge client
      *
+     * @return array<string, string|null>
+     *
      * @throws BridgePaymentMethodNotConfiguredException
      */
     public function getBridgeGatewayConfig(): array

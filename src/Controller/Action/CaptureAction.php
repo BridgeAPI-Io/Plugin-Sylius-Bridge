@@ -8,8 +8,6 @@ use Bridge\SyliusBridgePlugin\Client\BridgePaymentApiClientInterface;
 use Bridge\SyliusBridgePlugin\Controller\Action\Api\ApiAwareTrait;
 use Bridge\SyliusBridgePlugin\Service\CryptDecryptServiceInterface;
 use Bridge\SyliusBridgePlugin\Service\UserServiceInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\RequestException;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
@@ -27,16 +25,21 @@ use Safe\Exceptions\UrlException;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
-use Sylius\Component\Currency\Context\CurrencyContextInterface;
+use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
 use function abs;
-use function GuzzleHttp\json_decode;
+use function assert;
 use function number_format;
+use function Safe\json_decode;
 use function Safe\json_encode;
 use function str_contains;
 
@@ -49,13 +52,12 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
 
     public function __construct(
         BridgePaymentApiClientInterface $bridgePaymentApiClient,
-        private CurrencyContextInterface $currencyContext,
         private UserServiceInterface $securityService,
         private RouterInterface $router,
         private ChannelContextInterface $channelContext,
         private RequestStack $requestStack,
         private TranslatorInterface $translator,
-        private CryptDecryptServiceInterface $cryptDecryptService
+        private CryptDecryptServiceInterface $cryptDecryptService,
     ) {
         $this->setApi($bridgePaymentApiClient);
     }
@@ -67,6 +69,8 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
      */
     public function execute(mixed $request): void
     {
+        assert($request instanceof Capture);
+
         RequestNotSupportedException::assertSupports($this, $request);
 
         $details = ArrayObject::ensureArrayObject($request->getModel());
@@ -106,13 +110,14 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         try {
             $res = $this->bridgePaymentApiClient->createBridgeRequestPayment($this->getRequestBody($payment, $token), $mode);
             if ($res !== null) {
-                $response = json_decode((string) $res->getBody(), true);
+                /** @var array<string, string> $response */
+                $response = json_decode($res->getContent(), true);
                 $payment->setPaymentApiId($response['id']);
 
                 throw new HttpRedirect($response['consent_url']);
             }
-        } catch (RequestException | JsonException  | GuzzleException  $e) {
-            if ($e instanceof GuzzleException) {
+        } catch (ClientExceptionInterface | JsonException | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+            if ($e instanceof ClientException) {
                 $flashBag = $this->requestStack->getSession()->getFlashBag(); //@phpstan-ignore-line - polymorphism
                 $flashBag->add('error', $this->translator->trans('bridge.payment_checkout.an_error_has_occurred'));
                 if (str_contains($e->getMessage(), 'Currency')) {
@@ -126,9 +131,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         }
     }
 
-    /**
-     * @throws JsonException
-     */
+    /** @throws JsonException */
     private function getRequestBody(PaymentInterface $payment, TokenInterface $token): string
     {
         $shopUser = $this->securityService->getAuthShopUser();
@@ -174,7 +177,7 @@ final class CaptureAction implements ActionInterface, ApiAwareInterface, Gateway
         $path = $this->router->generate(
             'bridge_failed_status',
             ['payum_token' => $token->getHash()],
-            UrlGeneratorInterface::ABSOLUTE_PATH
+            UrlGeneratorInterface::ABSOLUTE_PATH,
         );
 
         return $this->requestStack->getCurrentRequest()?->getUriForPath($path);

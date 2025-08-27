@@ -10,18 +10,23 @@ use Doctrine\ORM\Mapping as ORM;
 trait PaymentMethodTrait
 {
     /** @ORM\Column(name="bridge_test_mode", type="boolean", options={"default":true})) */
+    #[ORM\Column(name: 'bridge_test_mode', type: 'boolean', options: ['default' => true])]
     private bool $testMode = true;
 
     /** @ORM\Column(name="bridge_logo", type="boolean", options={"default":true})) */
+    #[ORM\Column(name: 'bridge_logo', type: 'boolean', options: ['default' => true])]
     private bool $bridgeLogo = true;
 
     /** @ORM\Column(name="payment_account", type="boolean", options={"default":false})) */
+    #[ORM\Column(name: 'payment_account', type: 'boolean', options: ['default' => false])]
     private bool $paymentAccount = false;
 
     /** @ORM\Column(name="bridge_test_webhook_configuration_date", type="datetime", nullable=true) */
+    #[ORM\Column(name: 'bridge_test_webhook_configuration_date', type: 'datetime', nullable: true)]
     private ?DateTime $testWebhookConfigurationDate = null;
 
     /** @ORM\Column(name="bridge_production_webhook_configuration_date", type="datetime", nullable=true) */
+    #[ORM\Column(name: 'bridge_production_webhook_configuration_date', type: 'datetime', nullable: true)]
     private ?DateTime $productionWebhookConfigurationDate = null;
 
     public function isTestMode(): bool

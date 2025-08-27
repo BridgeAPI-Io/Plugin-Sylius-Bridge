@@ -17,7 +17,7 @@ final class FailedStatusAction
     public function __construct(
         private RepositoryInterface $paymentSecurityTokenRepository,
         private RepositoryInterface $paymentRepository,
-        private Logger $logger
+        private Logger $logger,
     ) {
     }
 

@@ -21,7 +21,7 @@ use Symfony\Component\Form\FormEvents;
 final class PaymentMethodTypeExtension extends AbstractTypeExtension
 {
     public function __construct(
-        private CryptDecryptServiceInterface $cryptDecryptService
+        private CryptDecryptServiceInterface $cryptDecryptService,
     ) {
     }
 
@@ -33,9 +33,7 @@ final class PaymentMethodTypeExtension extends AbstractTypeExtension
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
     }
 
-    /**
-     * @throws MiscException|OpensslException|UrlException
-     */
+    /** @throws MiscException|OpensslException|UrlException */
     public function onPreSetData(FormEvent $event): void
     {
         /** @var PaymentMethodInterface $data */

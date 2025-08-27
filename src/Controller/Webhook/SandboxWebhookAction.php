@@ -21,7 +21,7 @@ use function Safe\json_encode;
 final class SandboxWebhookAction
 {
     public function __construct(
-        private BridgeWebhookServiceInterface $webhookService
+        private BridgeWebhookServiceInterface $webhookService,
     ) {
     }
 

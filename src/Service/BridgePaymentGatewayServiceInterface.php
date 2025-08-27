@@ -12,9 +12,11 @@ interface BridgePaymentGatewayServiceInterface
     /**
      * This function allows to retrieve the configured Bridge client
      *
+     * @return array<string, string|null>|null
+     *
      * @throws BridgePaymentMethodNotConfiguredException
      */
-    public function getBridgeGatewayConfig(): array;
+    public function getBridgeGatewayConfig(): ?array;
 
     /**
      * This function allows to retrieve the Bridge payment method

@@ -17,16 +17,15 @@ final class UpdateSelectedBankOnPaymentAction
 {
     public function __construct(
         private RepositoryInterface $orderRepository,
-        private EntityManagerInterface $paymentManager
+        private EntityManagerInterface $paymentManager,
     ) {
     }
 
-    /**
-     * @throws JsonException
-     */
+    /** @throws JsonException */
     public function __invoke(Request $request): JsonResponse
     {
         $orderId = $request->get('orderId');
+        /** @var ?string $bankId */
         $bankId = $request->get('bankId');
 
         //@phpstan-ignore-next-line

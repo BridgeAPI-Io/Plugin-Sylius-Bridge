@@ -11,9 +11,7 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 
 final class PaymentMethodRepository extends BasePaymentMethodRepository implements PaymentMethodRepositoryInterface
 {
-    /**
-     * @throws NonUniqueResultException
-     */
+    /** @throws NonUniqueResultException */
     public function findOneByGatewayFactoryNameAndChannel(string $gatewayFactoryName, ChannelInterface $channel): ?PaymentMethodInterface
     {
         return $this->createQueryBuilder('o')

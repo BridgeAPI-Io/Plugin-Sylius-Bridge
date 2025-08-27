@@ -13,8 +13,24 @@ parameters:
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getBankId\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::getPaymentApiId\(\).#'
         - '#Call to an undefined method Sylius\\Component\\Core\\Model\\PaymentInterface::setBankId\(\).#'
-        - '#Call to method [a-zA-Z0-9\\_]+\(\) on an unknown class App\\Entity\\Payment\\PaymentMethod.#'
-        - '#Parameter \$[a-zA-Z0-9\\_]+ of method Bridge\\SyliusBridgePlugin\\EventListener\\PaymentMethodListener::[a-zA-Z0-9\\_]+\(\) has invalid typehint type App\\Entity\\Payment\\PaymentMethod.#'
+        - identifier: missingType.generics
+          paths:
+              - src/Service/BridgeWebhookService.php
+              - src/Repository/PaymentMethodRepository.php
+              - src/Controller/Action/FailedStatusAction.php
+              - src/Repository/PaymentMethodRepositoryInterface.php
+              - src/Controller/Action/UpdateSelectedBankOnPaymentAction.php
+        - identifier: class.notFound
+          path: src/EventListener/PaymentMethodListener.php
+        - identifier: missingType.iterableValue
+          paths:
+              - src/Client/BridgePaymentApiClient.php
+              - src/Form/Extension/PaymentMethodTypeExtension.php
+              - src/DependencyInjection/BridgeSyliusPaymentExtension.php
+        - identifier: argument.type
+          paths:
+              - src/BridgePaymentGatewayFactory.php
+              - src/EventListener/PaymentMethodListener.php
+        - identifier: return.type
+          path: src/Client/BridgePaymentApiClient.php
     level: max
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingIterableValueType: false

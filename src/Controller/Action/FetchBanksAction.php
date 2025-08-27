@@ -6,6 +6,7 @@ namespace Bridge\SyliusBridgePlugin\Controller\Action;
 
 use Bridge\SyliusBridgePlugin\Client\BridgePaymentApiClientInterface;
 use Bridge\SyliusBridgePlugin\Exception\BridgePaymentMethodNotConfiguredException;
+use Bridge\SyliusBridgePlugin\Service\BridgeBankService;
 use Bridge\SyliusBridgePlugin\Service\BridgeBankServiceInterface;
 use Bridge\SyliusBridgePlugin\Service\BridgePaymentGatewayService;
 use Bridge\SyliusBridgePlugin\Service\CryptDecryptService;
@@ -18,17 +19,17 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use function in_array;
 use function Safe\substr;
 
 final class FetchBanksAction
 {
+    /** @var array<string, string|null>|null  */
     private ?array $config;
 
     private PaymentMethodInterface $paymentMethod;
 
-    /**
-     * @throws BridgePaymentMethodNotConfiguredException|MiscException|OpensslException|UrlException
-     */
+    /** @throws BridgePaymentMethodNotConfiguredException|MiscException|OpensslException|UrlException */
     public function __construct(
         private BridgePaymentGatewayService $bridgePaymentGatewayService,
         private BridgePaymentApiClientInterface $client,
@@ -63,6 +64,9 @@ final class FetchBanksAction
         $mode = $this->paymentMethod->isTestMode() === false ? 'production' : 'test';
 
         $localeCode = substr($this->localeContext->getLocaleCode(), 0, 2);
+        if (! in_array($localeCode, BridgeBankService::SUPPORTED_BANKS, true)) {
+            $localeCode = 'fr';
+        }
 
         $banksResources = $this->client->getBanks($mode, $localeCode);
         $banks = $banksResources !== null ? $this->bankService->getSortedBanks($banksResources['resources']) : [];
@@ -76,7 +80,7 @@ final class FetchBanksAction
 
         return $this->templatingService->renderFromTemplate(
             '@BridgeSyliusPaymentPlugin/Checkout/SelectPayment/_banks_list.html.twig',
-            ['banks' => $banks]
+            ['banks' => $banks],
         );
     }
 }

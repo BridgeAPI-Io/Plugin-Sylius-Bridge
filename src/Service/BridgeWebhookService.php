@@ -13,16 +13,17 @@ use Bridge\SyliusBridgePlugin\Exception\BridgePaymentMethodNotConfiguredExceptio
 use Bridge\SyliusBridgePlugin\Exception\BridgePaymentMissingSignatureException;
 use Bridge\SyliusBridgePlugin\Exception\BridgePaymentUnknownTransactionTypeException;
 use Doctrine\ORM\EntityManagerInterface;
-use GuzzleHttp\Client;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Safe\DateTime;
 use Safe\Exceptions\JsonException;
 use Safe\Exceptions\StringsException;
 use Safe\Exceptions\UrlException;
+use stdClass;
 use Sylius\Component\Core\Model\Order;
 use Sylius\Component\Core\Model\PaymentMethod;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 
 use function explode;
@@ -34,6 +35,7 @@ use function strtoupper;
 
 final class BridgeWebhookService implements BridgeWebhookServiceInterface
 {
+    /** @var array<string, string|null>|null  */
     private ?array $config;
 
     /**
@@ -47,7 +49,7 @@ final class BridgeWebhookService implements BridgeWebhookServiceInterface
         private BridgePaymentGatewayService $bridgePaymentGatewayService,
         private EntityManagerInterface $paymentMethodManager,
         private RepositoryInterface $paymentRepository,
-        private CryptDecryptServiceInterface $cryptDecryptService
+        private CryptDecryptServiceInterface $cryptDecryptService,
     ) {
         $paymentMethod = $this->bridgePaymentGatewayService->getBridgePaymentMethod();
 
@@ -67,7 +69,7 @@ final class BridgeWebhookService implements BridgeWebhookServiceInterface
 
     public function getConfiguredClient(): BridgePaymentApiClientInterface
     {
-        $client = new BridgePaymentApiClient(new Client(), new Logger('console'));
+        $client = new BridgePaymentApiClient(HttpClient::create(), new Logger('console'));
 
         // Set BridgePaymentApiClient config
         $client->setConfig(
@@ -168,7 +170,7 @@ final class BridgeWebhookService implements BridgeWebhookServiceInterface
 
         $hash = hash_hmac('SHA256', $payload, $webhookSecret);
 
-        return strtoupper((string) $hash) === $signature;
+        return strtoupper($hash) === $signature;
     }
 
     /**
@@ -210,12 +212,13 @@ final class BridgeWebhookService implements BridgeWebhookServiceInterface
         $this->checkSignatures($request, $payload, $webhookSecret);
 
         // Get payload's data & update the status of the payment
-        $payload = json_decode($payload);
+        /** @var stdClass $decoded */
+        $decoded = json_decode($payload);
 
         /** @var PaymentMethod $paymentMethod */
         $paymentMethod = $this->bridgePaymentGatewayService->getBridgePaymentMethod();
 
-        switch ($payload->type) {
+        switch ($decoded->type) {
             case BridgePaymentApiClient::WEBHOOK_TEST_EVENT:
                 $paymentMethod->setTestWebhookConfigurationDate(new DateTime());
                 $this->paymentMethodManager->flush();
@@ -230,9 +233,9 @@ final class BridgeWebhookService implements BridgeWebhookServiceInterface
                 $this->logger->info('WEBHOOK-PAYMENT-TRANSACTION-UPDATED-EVENT: The signature was verified successfully.');
 
                 // The client reference received from the API corresponds to the id of the payment
-                $clientReference = $payload->content->client_reference;
+                $clientReference = $decoded->content->client_reference;
                 $payment = $this->paymentRepository->findOneBy(['id' => $clientReference]);
-                $this->bridgeStatusService->matchStatus($payload->content->status, $payment); //@phpstan-ignore-line
+                $this->bridgeStatusService->matchStatus($decoded->content->status, $payment); //@phpstan-ignore-line
 
                 break;
             default:

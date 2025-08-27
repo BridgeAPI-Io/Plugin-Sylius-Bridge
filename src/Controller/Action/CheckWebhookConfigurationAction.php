@@ -23,9 +23,7 @@ final class CheckWebhookConfigurationAction
     ) {
     }
 
-    /**
-     * @throws JsonException|BridgePaymentMethodNotConfiguredException
-     */
+    /** @throws JsonException|BridgePaymentMethodNotConfiguredException */
     public function __invoke(Request $request): Response
     {
         /** @var PaymentMethod $paymentMethod */

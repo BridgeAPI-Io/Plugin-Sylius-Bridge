@@ -35,3 +35,8 @@
 
 - Add payment account feature with new database field
 - Refactor locale code handling in BridgeBankService
+
+### v1.0.1 (2025-08-27)
+
+- Add compatibility with Sylius versions 1.11, 1.12, 1.13, 1.14
+- Update dependencies to support latest Sylius framework versions

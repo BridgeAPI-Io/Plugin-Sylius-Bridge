@@ -54,4 +54,12 @@
             <property name="spacesCountBeforeColon" value="0"/>
         </properties>
     </rule>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat.DisallowedShortNullable">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="PSR12.Functions.NullableTypeDeclaration">
+        <severity>0</severity>
+    </rule>
 </ruleset>

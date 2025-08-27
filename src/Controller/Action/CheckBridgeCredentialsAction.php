@@ -20,9 +20,7 @@ final class CheckBridgeCredentialsAction
     ) {
     }
 
-    /**
-     * @throws JsonException
-     */
+    /** @throws JsonException */
     public function __invoke(Request $request): Response
     {
         $env = $request->get('type') === self::TEST_TYPE ? 'test' : 'production';
@@ -36,8 +34,13 @@ final class CheckBridgeCredentialsAction
 
     private function setClientConfig(Request $request, string $env): void
     {
+        /** @var ?string $clientId */
         $clientId = $request->get('clientId');
+
+        /** @var ?string $clientSecret */
         $clientSecret = $request->get('clientSecret');
+
+        /** @var ?string $webhookSecret */
         $webhookSecret = $request->get('webhookSecret');
 
         if ($env === self::TEST_TYPE) {
@@ -47,7 +50,7 @@ final class CheckBridgeCredentialsAction
                 null,
                 $clientId,
                 $clientSecret,
-                $webhookSecret
+                $webhookSecret,
             );
         } else {
             $this->client->setConfig(
@@ -56,7 +59,7 @@ final class CheckBridgeCredentialsAction
                 $webhookSecret,
                 null,
                 null,
-                null
+                null,
             );
         }
     }

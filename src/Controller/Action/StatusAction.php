@@ -14,7 +14,10 @@ use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Request\GetStatusInterface;
+use Sylius\Bundle\PayumBundle\Request\GetStatus;
 use Sylius\Component\Core\Model\PaymentInterface;
+
+use function assert;
 
 final class StatusAction implements ActionInterface, GatewayAwareInterface, ApiAwareInterface
 {
@@ -24,13 +27,15 @@ final class StatusAction implements ActionInterface, GatewayAwareInterface, ApiA
     public function __construct(
         BridgePaymentApiClientInterface $bridgePaymentApiClient,
         private BridgeStatusServiceInterface $bridgeStatusService,
-        private Logger $logger
+        private Logger $logger,
     ) {
         $this->setApi($bridgePaymentApiClient);
     }
 
     public function execute(mixed $request): void
     {
+        assert($request instanceof GetStatus);
+
         RequestNotSupportedException::assertSupports($this, $request);
 
         /** @var PaymentInterface $payment */

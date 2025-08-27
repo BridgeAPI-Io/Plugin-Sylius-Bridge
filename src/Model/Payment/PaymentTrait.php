@@ -9,9 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 trait PaymentTrait
 {
     /** @ORM\Column(name="bridge_payment_api_id", type="string", nullable=true) */
+    #[ORM\Column(name: 'bridge_payment_api_id', type: 'string', nullable: true)]
     private ?string $paymentApiId = null;
 
     /** @ORM\Column(name="bridge_bank_id", type="string", nullable=true) */
+    #[ORM\Column(name: 'bridge_bank_id', type: 'string', nullable: true)]
     private ?int $bankId = null;
 
     public function getPaymentApiId(): ?string

@@ -20,8 +20,10 @@ final class BridgeSyliusPaymentExtension extends Extension implements PrependExt
     public function prepend(ContainerBuilder $container): void
     {
         $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
+        /** @var string[] $configs */
+        $configs = array_pop($doctrineConfig)['migrations_paths'] ?? [];
         $container->prependExtensionConfig('doctrine_migrations', [
-            'migrations_paths' => array_merge(array_pop($doctrineConfig)['migrations_paths'] ?? [], ['Bridge\SyliusBridgePlugin\Migrations' => '@BridgeSyliusPaymentPlugin/Migrations']),
+            'migrations_paths' => array_merge($configs, ['Bridge\SyliusBridgePlugin\Migrations' => '@BridgeSyliusPaymentPlugin/Migrations']),
         ]);
     }
 }

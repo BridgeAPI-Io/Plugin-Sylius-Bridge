@@ -19,35 +19,29 @@ class PaymentMethodListener
         private BridgePaymentApiClientInterface $client,
         private RequestStack $requestStack,
         private TranslatorInterface $translator,
-        private CryptDecryptServiceInterface $cryptDecryptService
+        private CryptDecryptServiceInterface $cryptDecryptService,
     ) {
     }
 
-    /**
-     * @throws UrlException
-     */
+    /** @throws UrlException */
     public function preCreate(ResourceControllerEvent $event): void
     {
         $this->preAction($event);
     }
 
-    /**
-     * @throws UrlException
-     */
+    /** @throws UrlException */
     public function preUpdate(ResourceControllerEvent $event): void
     {
         $this->preAction($event);
     }
 
-    /**
-     * @throws UrlException
-     */
+    /** @throws UrlException */
     private function preAction(ResourceControllerEvent $event): void
     {
+        /** @var PaymentMethod $paymentMethod */
         $paymentMethod = $event->getSubject();
 
-        $factoryName = $paymentMethod->getGatewayConfig()->getFactoryName();
-
+        $factoryName = $paymentMethod->getGatewayConfig()?->getFactoryName();
         if ($factoryName !== BridgePaymentGatewayFactory::FACTORY_NAME) {
             return;
         }
@@ -95,9 +89,7 @@ class PaymentMethodListener
         $paymentMethod->setEnabled(false);
     }
 
-    /**
-     * @param array<string> $config
-     */
+    /** @param array<string> $config */
     private function paymentMethodCanBeEnabled(bool $isEnabled, bool $isTestMode, array $config): bool
     {
         return ! $this->isTestKeysAreProvided($config) ||
@@ -106,9 +98,7 @@ class PaymentMethodListener
             ! $isTestMode;
     }
 
-    /**
-     * @param array<string> $config
-     */
+    /** @param array<string> $config */
     private function isTestKeysAreProvided(array $config): bool
     {
         return isset($config['testClientId']) &&
@@ -116,9 +106,7 @@ class PaymentMethodListener
             isset($config['testWebhookSecret']);
     }
 
-    /**
-     * @param array<string> $config
-     */
+    /** @param array<string> $config */
     private function isTestKeysAreValid(?array $config): bool
     {
         if ($config === null) {
@@ -126,20 +114,6 @@ class PaymentMethodListener
         }
 
         $banks = $this->client->getBanks('test');
-
-        return isset($banks['resources']);
-    }
-
-    /**
-     * @param array<string> $config
-     */
-    private function isProdKeysAreValid(?array $config): bool
-    {
-        if ($config === null) {
-            return false;
-        }
-
-        $banks = $this->client->getBanks('prod');
 
         return isset($banks['resources']);
     }

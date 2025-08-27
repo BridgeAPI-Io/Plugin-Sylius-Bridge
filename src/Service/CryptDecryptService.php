@@ -38,7 +38,7 @@ final class CryptDecryptService implements CryptDecryptServiceInterface
 
     public function __construct(
         private Logger $logger,
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
     ) {
         $this->session = $this->requestStack->getSession();
     }
@@ -137,9 +137,7 @@ final class CryptDecryptService implements CryptDecryptServiceInterface
         return $paymentMethod;
     }
 
-    /**
-     * @throws UrlException
-     */
+    /** @throws UrlException */
     public function decryptGatewayConfig(PaymentMethodInterface $paymentMethod): PaymentMethodInterface
     {
         $config = $paymentMethod->getGatewayConfig()?->getConfig();

@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface BridgeWebhookServiceInterface
 {
+    /** @return array<string, string|null>|null */
     public function getGatewayConfig(): ?array;
 
     public function getConfiguredClient(): BridgePaymentApiClientInterface;

@@ -15,13 +15,9 @@ interface CryptDecryptServiceInterface
 
     public function decrypt(string $data, string $key, string $iv): string|bool;
 
-    /**
-     * @throws UrlException
-     */
+    /** @throws UrlException */
     public function encryptGatewayConfig(PaymentMethodInterface $paymentMethod): PaymentMethodInterface;
 
-    /**
-     * @throws UrlException
-     */
+    /** @throws UrlException */
     public function decryptGatewayConfig(PaymentMethodInterface $paymentMethod): PaymentMethodInterface;
 }

@@ -9,7 +9,7 @@ final class BridgeApi
     public function __construct(
         private string $clientId,
         private string $clientSecret,
-        private string $webhookSecret
+        private string $webhookSecret,
     ) {
     }
 

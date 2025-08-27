@@ -6,10 +6,10 @@ namespace Bridge\SyliusBridgePlugin;
 
 use Bridge\SyliusBridgePlugin\Client\BridgePaymentApiClient;
 use Bridge\SyliusBridgePlugin\Client\BridgePaymentApiClientInterface;
-use GuzzleHttp\Client;
 use Monolog\Logger;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\GatewayFactory;
+use Symfony\Component\HttpClient\HttpClient;
 
 final class BridgePaymentGatewayFactory extends GatewayFactory
 {
@@ -39,7 +39,7 @@ final class BridgePaymentGatewayFactory extends GatewayFactory
         $config->defaults($config['payum.default_options']);
 
         $config['payum.api'] = static function (ArrayObject $config): BridgePaymentApiClientInterface {
-            $bridgePaymentApiClient = new BridgePaymentApiClient(new Client(), new Logger('console'));
+            $bridgePaymentApiClient = new BridgePaymentApiClient(HttpClient::create(), new Logger('console'));
 
             $bridgePaymentApiClient->setConfig(
                 $config['clientId'],

@@ -19,49 +19,37 @@ final class PaymentStateManager implements PaymentStateManagerInterface
     ) {
     }
 
-    /**
-     * @throws SMException
-     */
+    /** @throws SMException */
     public function create(PaymentInterface $payment): void
     {
         $this->applyTransitionAndSave($payment, PaymentTransitions::TRANSITION_CREATE);
     }
 
-    /**
-     * @throws SMException
-     */
+    /** @throws SMException */
     public function process(PaymentInterface $payment): void
     {
         $this->applyTransitionAndSave($payment, PaymentTransitions::TRANSITION_PROCESS);
     }
 
-    /**
-     * @throws SMException
-     */
+    /** @throws SMException */
     public function complete(PaymentInterface $payment): void
     {
         $this->applyTransitionAndSave($payment, PaymentTransitions::TRANSITION_COMPLETE);
     }
 
-    /**
-     * @throws SMException
-     */
+    /** @throws SMException */
     public function cancel(PaymentInterface $payment): void
     {
         $this->applyTransitionAndSave($payment, PaymentTransitions::TRANSITION_CANCEL);
     }
 
-    /**
-     * @throws SMException
-     */
+    /** @throws SMException */
     public function fail(PaymentInterface $payment): void
     {
         $this->applyTransitionAndSave($payment, PaymentTransitions::TRANSITION_FAIL);
     }
 
-    /**
-     * @throws SMException
-     */
+    /** @throws SMException */
     private function applyTransitionAndSave(PaymentInterface $payment, string $transition): void
     {
         /** @var StateMachineInterface $stateMachine */

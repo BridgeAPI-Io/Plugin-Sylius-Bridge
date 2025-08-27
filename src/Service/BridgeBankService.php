@@ -22,17 +22,29 @@ final class BridgeBankService implements BridgeBankServiceInterface
 {
     public const BANKS_TO_IGNORE = [152, 179, 5];
 
+    /**
+     * List of Supported banks from https://docs.bridgeapi.io/v2021.06.01/reference/list-banks
+     */
+    public const SUPPORTED_BANKS = ['fr', 'es', 'it', 'pt', 'de', 'be', 'nl', 'lu', 'pl', 'hu', 'ie', 'mt', 'cz', 'no', 'bg', 'se', 'dk', 'at', 'sk'];
+
     public function __construct(
-        private LocaleContextInterface $localeContext
+        private LocaleContextInterface $localeContext,
     ) {
     }
 
     /**
      * This function allows to get only the locale banks depending on the locale code
+     *
+     * @param array<int, array{id:int,name:string,country_code:string,logo_url:string,url: string,is_highlighted:bool,primary_color:string,secondary_color:string,parent_name:string,capabilities:array<int, string>,channel_type: array<int, string>,display_order:int,authentication_page_url:string,authentication_page_url_mobile:string}> $banks
+     *
+     * @return array<int, array{id:int,name:string,country_code:string,logo_url:string,url: string,is_highlighted:bool,primary_color:string,secondary_color:string,parent_name:string,capabilities:array<int, string>,channel_type: array<int, string>,display_order:int,authentication_page_url:string,authentication_page_url_mobile:string}>
      */
     private function getLocaleBanks(array $banks): array
     {
         $localeCode = strtolower(substr($this->localeContext->getLocaleCode(), 0, 2));
+        if (! in_array($localeCode, self::SUPPORTED_BANKS, true)) {
+            $localeCode = 'fr';
+        }
 
         return array_filter($banks, static function ($bank) use ($localeCode): bool {
             return strtolower($bank['country_code']) === strtolower($localeCode);
